@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aryan Window World - Quotation Generator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+  font-family: 'Inter', sans-serif; 
+  background: linear-gradient(135deg, #144B8C 0%, #2563eb 50%, #1e40af 100%);
+  min-height: 100vh;
+  padding: 15px;
+  color: #333;
+}
+
+.main-header {
+  text-align: center;
+  margin-bottom: 30px;
+  background: rgba(255,255,255,0.95);
+  padding: 25px 20px;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 20px 40px rgba(20, 75, 140, 0.2);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #144B8C, #1e40af);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  box-shadow: 0 10px 20px rgba(20, 75, 140, 0.3);
+  flex-shrink: 0;
+}
+
+.company-name {
+  font-size: clamp(20px, 4vw, 28px);
+  font-weight: 800;
+  background: linear-gradient(135deg, #144B8C, #1e40af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.tagline {
+  font-size: clamp(12px, 2.5vw, 14px);
+  color: #666;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+h2 { 
+  font-size: clamp(14px, 3vw, 16px); 
+  margin-bottom: 20px; 
+  color: #144B8C;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+h2::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(135deg, #144B8C, #1e40af);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+h3, h4 { 
+  margin-bottom: 15px; 
+  font-weight: 600;
+  color: #374151;
+  font-size: clamp(12px, 2.5vw, 14px);
+}
+
+.form-section { 
+  background: rgba(255,255,255,0.95);
+  border-radius: 16px; 
+  padding: clamp(15px, 3vw, 25px); 
+  margin-bottom: 20px; 
+  box-shadow: 0 15px 35px rgba(20, 75, 140, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.grid-container { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); 
+  gap: clamp(10px, 2vw, 15px); 
+  margin-bottom: 20px; 
+}
+
+.grid-item { 
+  display: flex; 
+  flex-direction: column; 
+  min-width: 0; /* Allow items to shrink */
+}
+
+.grid-item label {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+  font-size: clamp(11px, 2.2vw, 13px);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.grid-item label i {
+  font-size: clamp(10px, 2vw, 12px);
+  color: #144B8C;
+}
+
+input, textarea, select { 
+  padding: clamp(10px, 2vw, 12px) clamp(12px, 2.5vw, 14px); 
+  border: 2px solid #e5e7eb; 
+  border-radius: 10px; 
+  font-size: clamp(12px, 2.5vw, 14px);
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+  background: white;
+  width: 100%;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #144B8C;
+  box-shadow: 0 0 0 3px rgba(20, 75, 140, 0.1);
+  transform: translateY(-1px);
+}
+
+textarea {
+  resize: vertical;
+  min-height: clamp(60px, 10vw, 70px);
+}
+
+.btn { 
+  background: linear-gradient(135deg, #144B8C, #1e40af);
+  color: #fff; 
+  padding: clamp(10px, 2.5vw, 12px) clamp(18px, 4vw, 24px); 
+  font-weight: 600; 
+  border: none; 
+  border-radius: 10px; 
+  cursor: pointer; 
+  margin: 6px 6px 6px 0;
+  font-size: clamp(11px, 2.2vw, 13px);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-height: 44px; /* Touch-friendly minimum */
+}
+
+.btn:hover { 
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(20, 75, 140, 0.3);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #059669, #10b981);
+}
+
+.btn-secondary:hover {
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  padding: clamp(12px, 2.5vw, 15px);
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: clamp(16px, 3vw, 18px);
+  height: clamp(16px, 3vw, 18px);
+  accent-color: #144B8C;
+  flex-shrink: 0;
+}
+
+.checkbox-container label {
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  font-size: clamp(12px, 2.5vw, 14px);
+}
+
+.pdf-container { 
+  background: #fff; 
+  width: 100%; 
+  max-width: min(800px, 100vw - 30px); 
+  min-height: 297mm; 
+  padding: clamp(10px, 3vw, 15px); 
+  margin: auto; 
+  border-radius: 16px; 
+  box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+  color: #111827;
+  position: relative;
+  overflow-x: auto;
+}
+
+.pdf-header {
+  text-align: center;
+  margin-bottom: clamp(20px, 4vw, 25px);
+  border-bottom: 3px solid #144B8C;
+  padding-bottom: clamp(12px, 2.5vw, 15px);
+}
+
+.pdf-logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 3vw, 15px);
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.pdf-logo {
+  width: clamp(40px, 8vw, 50px);
+  height: clamp(40px, 8vw, 50px);
+  background: linear-gradient(135deg, #144B8C, #1e40af);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: clamp(16px, 3.5vw, 20px);
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.pdf-header h1 { 
+  font-size: clamp(20px, 4.5vw, 26px); 
+  font-weight: 800; 
+  margin-bottom: 8px;
+  color: #1f2937;
+}
+
+.pdf-header .header-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  font-size: clamp(11px, 2.2vw, 13px);
+  color: #6b7280;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  font-size: clamp(9px, 2vw, 11px); 
+  margin-bottom: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  overflow-x: auto;
+  display: block;
+  white-space: nowrap;
+}
+
+table thead, table tbody, table tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table th, table td { 
+  border: 1px solid #d1d5db; 
+  padding: clamp(6px, 1.5vw, 10px) clamp(4px, 1vw, 8px); 
+  text-align: center; 
+  vertical-align: top;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+table th { 
+  background: linear-gradient(135deg, #144B8C, #1e40af);
+  color: #fff; 
+  font-weight: 600;
+  font-size: clamp(8px, 1.8vw, 11px);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+table tr:nth-child(even) td { 
+  background: #f8fafc; 
+}
+
+table tr:hover td {
+  background: #e2e8f0;
+}
+
+.totals td { 
+  text-align: right; 
+  font-weight: 500;
+  font-size: clamp(10px, 2.2vw, 12px);
+}
+
+.grand-total td { 
+  font-weight: 700; 
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: white;
+  font-size: clamp(10px, 2.5vw, 12px);
+}
+
+.section {
+  margin-bottom: clamp(15px, 3vw, 20px);
+}
+
+.section h2 {
+  color: #1f2937;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+}
+
+.customer-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: clamp(10px, 2.5vw, 15px);
+  margin-bottom: 15px;
+}
+
+.info-item {
+  padding: clamp(8px, 2vw, 10px);
+  background: #f8fafc;
+  border-radius: 8px;
+  border-left: 4px solid #144B8C;
+}
+
+.info-item strong {
+  color: #374151;
+  font-weight: 600;
+  font-size: clamp(11px, 2.2vw, 12px);
+}
+
+.terms-list {
+  font-size: clamp(8px, 1.8vw, 10px);
+  line-height: 1.6;
+  color: #4b5563;
+  padding-left: 0;
+}
+
+.terms-list li {
+  margin-bottom: 6px;
+  padding-left: clamp(12px, 2.5vw, 16px);
+  position: relative;
+  list-style: none;
+}
+
+.terms-list li::before {
+  content: '•';
+  color: #144B8C;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+footer { 
+  text-align: center; 
+  font-size: clamp(9px, 2vw, 11px); 
+  margin-top: clamp(25px, 5vw, 30px); 
+  border-top: 2px solid #e5e7eb; 
+  padding-top: clamp(12px, 2.5vw, 15px); 
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Mobile Specific Styles */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  
+  .main-header {
+    padding: 20px 15px;
+    margin-bottom: 20px;
+  }
+  
+  .logo-container {
+    gap: 12px;
+  }
+  
+  .logo {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+  
+  .grid-container {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .customer-info-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .pdf-header .header-info {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  .form-section {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .pdf-container {
+    padding: 12px;
+    margin: 10px auto;
+    border-radius: 12px;
+  }
+  
+  .btn {
+    width: 100%;
+    margin: 5px 0;
+    justify-content: center;
+    padding: 12px 20px;
+  }
+  
+  .checkbox-container {
+    padding: 12px;
+    gap: 10px;
+  }
+  
+  table {
+    font-size: 9px;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  table th, table td {
+    padding: 6px 4px;
+    min-width: 60px;
+  }
+  
+  /* Specific column widths for mobile */
+  table th:nth-child(1), table td:nth-child(1) { width: 8%; }  /* SR NO */
+  table th:nth-child(2), table td:nth-child(2) { width: 35%; text-align: left; } /* SPECIFICATION */
+  table th:nth-child(3), table td:nth-child(3) { width: 15%; } /* LOCATION */
+  table th:nth-child(4), table td:nth-child(4) { width: 10%; } /* SIZE */
+  table th:nth-child(5), table td:nth-child(5) { width: 8%; }  /* QTY */
+  table th:nth-child(6), table td:nth-child(6) { width: 12%; } /* RATE */
+  table th:nth-child(7), table td:nth-child(7) { width: 12%; } /* AMOUNT */
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+  body {
+    padding: 8px;
+  }
+  
+  .logo-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .company-name {
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  .tagline {
+    font-size: 11px;
+  }
+  
+  .pdf-logo-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .pdf-header h1 {
+    font-size: 18px;
+  }
+  
+  .form-section {
+    padding: 12px;
+    border-radius: 12px;
+  }
+  
+  .pdf-container {
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  table {
+    font-size: 8px;
+  }
+  
+  table th, table td {
+    padding: 4px 3px;
+    min-width: 50px;
+  }
+  
+  .btn {
+    font-size: 11px;
+    padding: 10px 16px;
+    margin: 4px 0;
+  }
+  
+  h2 {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
+  h3, h4 {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .grid-item label {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+  
+  input, textarea, select {
+    padding: 10px 12px;
+    font-size: 12px;
+    border-radius: 8px;
+  }
+  
+  textarea {
+    min-height: 60px;
+  }
+}
+
+/* Large Tablets and Small Laptops */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .grid-container {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  
+  .customer-info-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  
+  .form-section {
+    padding: 22px;
+  }
+}
+
+/* Desktop Styles */
+@media (min-width: 1025px) {
+  .grid-container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 18px;
+  }
+  
+  .customer-info-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  
+  .form-section {
+    padding: 25px;
+  }
+  
+  .pdf-container {
+    max-width: 900px;
+    padding: 20px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background: white;
+    padding: 0;
+  }
+  
+  .form-section:not(#quotation) {
+    display: none;
+  }
+  
+  .main-header {
+    display: none;
+  }
+  
+  .pdf-container {
+    box-shadow: none;
+    border-radius: 0;
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: 15mm;
+  }
+  
+  table {
+    font-size: 10px;
+    display: table;
+    white-space: normal;
+  }
+  
+  table thead, table tbody, table tr {
+    display: table-row-group;
+  }
+  
+  table tr {
+    display: table-row;
+  }
+  
+  table th, table td {
+    display: table-cell;
+  }
+}
+
+/* Terms and Conditions - Second Page Only */
+.terms-section {
+  page-break-before: always;
+  page-break-inside: avoid;
+  margin-top: 0;
+  padding-top: 20px;
+}
+
+/* Hide terms on screen, show only in print/PDF */
+@media screen {
+  .terms-section {
+    display: none;
+  }
+}
+
+@media print {
+  .terms-section {
+    display: block;
+    page-break-before: always;
+  }
+}
+
+/* For PDF generation - force new page */
+.pdf-page-break {
+  page-break-before: always;
+  break-before: page;
+}
+
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Scrollbar Styling for better mobile experience */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #144B8C;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1e40af;
+}
+
+/* Focus states for better accessibility */
+input:focus-visible, 
+textarea:focus-visible, 
+select:focus-visible,
+button:focus-visible {
+  outline: 2px solid #144B8C;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid currentColor;
+  }
+  
+  table th {
+    border: 2px solid #000;
+  }
+  
+  .pdf-container {
+    border: 2px solid #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .fade-in {
+    animation: none;
+  }
+  
+  .btn:hover {
+    transform: none;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="main-header fade-in">
+  <div class="logo-container">
+    <div class="logo">AW</div>
+    <div>
+      <div class="company-name">Aryan Window World</div>
+      <div class="tagline">Premium Windows, Doors & Aluminum Solutions</div>
+    </div>
+  </div>
+</div>
+
+<!-- Customer Info -->
+<div class="form-section fade-in">
+  <h2><i class="fas fa-user"></i> Customer Information</h2>
+  <div class="grid-container">
+    <div class="grid-item">
+      <label><i class="fas fa-user-circle"></i> Customer Name</label>
+      <input type="text" id="custName" placeholder="Enter customer name">
+    </div>
+    <div class="grid-item">
+      <label><i class="fas fa-building"></i> Project Name</label>
+      <input type="text" id="projectName" placeholder="Enter project name">
+    </div>
+    <div class="grid-item">
+      <label><i class="fas fa-calendar"></i> Quotation Date</label>
+      <input type="text" id="quotationDate" readonly>
+    </div>
+  </div>
+</div>
+
+<!-- Product Form -->
+<div class="form-section fade-in">
+  <h2><i class="fas fa-tools"></i> Add Product Details</h2>
+  
+  <div class="grid-container">
+    <div class="grid-item">
+      <label><i class="fas fa-list"></i> Product Category</label>
+      <select id="productCategory">
+        <option value="">Select Category</option>
+        <option value="Windows">Windows</option>
+        <option value="Doors">Doors</option>
+        <option value="Grills">Grills</option>
+        <option value="Aluminum Section">Aluminum Section</option>
+        <option value="Nets">Nets</option>
+        <option value="Glass Work">Glass Work</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="grid-item">
+      <label><i class="fas fa-tag"></i> Product Type / Model</label>
+      <input type="text" id="itemType" placeholder="e.g., Sliding Window, Safety Door">
+    </div>
+    <div class="grid-item">
+      <label><i class="fas fa-home"></i> Location/Area</label>
+      <select id="locationArea">
+        <option value="">Select Location</option>
+        <option value="Living Room">Living Room</option>
+        <option value="Bedroom">Bedroom</option>
+        <option value="Kitchen">Kitchen</option>
+        <option value="Bathroom">Bathroom</option>
+        <option value="Balcony">Balcony</option>
+        <option value="Dining Room">Dining Room</option>
+        <option value="Study Room">Study Room</option>
+        <option value="Guest Room">Guest Room</option>
+        <option value="Main Entrance">Main Entrance</option>
+        <option value="Back Door">Back Door</option>
+        <option value="Terrace">Terrace</option>
+        <option value="Staircase">Staircase</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="grid-item">
+      <label><i class="fas fa-expand"></i> Dimensions (sq.ft./linear ft)</label>
+      <input type="number" id="area" placeholder="0.00" step="0.01">
+    </div>
+    <div class="grid-item">
+      <label><i class="fas fa-sort-numeric-up"></i> Quantity</label>
+      <input type="number" id="quantity" placeholder="1" min="1">
+    </div>
+    <div class="grid-item">
+      <label><i class="fas fa-rupee-sign"></i> Rate (₹ per unit)</label>
+      <input type="number" id="rate" placeholder="0.00" step="0.01">
+    </div>
+  </div>
+
+  <!-- Frame Details -->
+  <h3><i class="fas fa-square"></i> Frame Specifications</h3>
+  <div class="grid-container">
+    <div class="grid-item">
+      <label>Frame Name</label>
+      <input type="text" id="frameName" placeholder="e.g., Aluminum Frame">
+    </div>
+    <div class="grid-item">
+      <label>Width (mm)</label>
+      <input type="text" id="frameWidth" placeholder="e.g., 60mm">
+    </div>
+    <div class="grid-item">
+      <label>Height (mm)</label>
+      <input type="text" id="frameHeight" placeholder="e.g., 80mm">
+    </div>
+    <div class="grid-item">
+      <label>Description</label>
+      <textarea id="frameDesc" placeholder="Additional frame details..."></textarea>
+    </div>
+  </div>
+
+  <!-- Sash Details -->
+  <h3><i class="fas fa-clone"></i> Sash Specifications</h3>
+  <div class="grid-container">
+    <div class="grid-item">
+      <label>Sash Name</label>
+      <input type="text" id="sashName" placeholder="e.g., Fixed Sash">
+    </div>
+    <div class="grid-item">
+      <label>Width (mm)</label>
+      <input type="text" id="sashWidth" placeholder="e.g., 50mm">
+    </div>
+    <div class="grid-item">
+      <label>Height (mm)</label>
+      <input type="text" id="sashHeight" placeholder="e.g., 70mm">
+    </div>
+    <div class="grid-item">
+      <label>Description</label>
+      <textarea id="sashDesc" placeholder="Additional sash details..."></textarea>
+    </div>
+  </div>
+
+  <!-- Lock Details -->
+  <h3><i class="fas fa-lock"></i> Lock Specifications</h3>
+  <div class="grid-container">
+    <div class="grid-item">
+      <label>Lock Type</label>
+      <input type="text" id="lockType" placeholder="e.g., Multi-point Lock">
+    </div>
+    <div class="grid-item">
+      <label>Brand</label>
+      <input type="text" id="lockBrand" placeholder="e.g., Yale">
+    </div>
+    <div class="grid-item">
+      <label>Model</label>
+      <input type="text" id="lockModel" placeholder="e.g., YS170">
+    </div>
+    <div class="grid-item">
+      <label>Description</label>
+      <textarea id="lockDesc" placeholder="Additional lock details..."></textarea>
+    </div>
+  </div>
+
+  <!-- Glass Details -->
+  <h3><i class="fas fa-gem"></i> Glass Specifications</h3>
+  <div class="grid-container">
+    <div class="grid-item">
+      <label>Glass Type</label>
+      <input type="text" id="glassType" placeholder="e.g., Tempered Glass">
+    </div>
+    <div class="grid-item">
+      <label>Thickness (mm)</label>
+      <input type="text" id="glassThickness" placeholder="e.g., 6mm">
+    </div>
+    <div class="grid-item">
+      <label>Width (mm)</label>
+      <input type="text" id="glassWidth" placeholder="Glass width">
+    </div>
+    <div class="grid-item">
+      <label>Height (mm)</label>
+      <input type="text" id="glassHeight" placeholder="Glass height">
+    </div>
+    <div class="grid-item">
+      <label>Description</label>
+      <textarea id="glassDesc" placeholder="Additional glass details..."></textarea>
+    </div>
+  </div>
+
+  <div class="checkbox-container">
+    <input type="checkbox" id="gstCheckbox">
+    <label for="gstCheckbox"><i class="fas fa-percentage"></i> Apply GST (18%)</label>
+  </div>
+
+  <button class="btn" onclick="addProduct()">
+    <i class="fas fa-plus"></i> Add Item to Quotation
+  </button>
+  <button class="btn btn-secondary" onclick="generatePDF()">
+    <i class="fas fa-download"></i> Download PDF
+  </button>
+</div>
+
+<!-- PDF Preview -->
+<div id="quotation" class="pdf-container">
+  <div class="pdf-header">
+    <div class="pdf-logo-container">
+      <div class="pdf-logo">AW</div>
+      <div>
+        <h1>Aryan Window World</h1>
+      </div>
+    </div>
+    <div class="header-info">
+      <div><strong>Date:</strong> <span id="outQuotationDate"></span></div>
+      <div><strong>Quotation No:</strong> <span id="outQuotationNo"></span></div>
+    </div>
+  </div>
+
+  <div class="section" id="customer-info">
+    <h2>Customer Information</h2>
+    <div class="customer-info-grid">
+      <div class="info-item">
+        <strong>Customer Name:</strong><br>
+        <span id="outCustName">-</span>
+      </div>
+      <div class="info-item">
+        <strong>Project Name:</strong><br>
+        <span id="outProjectName">-</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Items Table -->
+  <div id="products-section" class="section">
+    <h2>Items</h2>
+    <table id="itemsTable">
+      <thead>
+        <tr>
+          <th>SR NO.</th>
+          <th>PRODUCT SPECIFICATION</th>
+          <th>LOCATION</th>
+          <th>SIZE</th>
+          <th>QTY</th>
+          <th>RATE (₹)</th>
+          <th>AMOUNT (₹)</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- Totals -->
+  <div class="section totals" id="totals-section">
+    <table>
+      <tr><td><strong>Total Items</strong></td><td id="totalItems">0</td></tr>
+      <tr><td><strong>Total Area/Units</strong></td><td id="totalArea">0</td></tr>
+      <tr><td><strong>Sub Total</strong></td><td id="subtotal">₹0</td></tr>
+      <tr><td><strong>GST (18%)</strong></td><td id="taxes">₹0</td></tr>
+      <tr class="grand-total"><td><strong>Grand Total</strong></td><td id="grandTotal">₹0</td></tr>
+    </table>
+  </div>
+
+  <!-- Terms -->
+  <div class="section">
+    <h2>Terms and Conditions</h2>
+    <ul class="terms-list">
+      <li>Material used: Premium Aluminum Alloy 6063 T6 with superior quality standards.</li>
+      <li>Payment Terms: 80% advance with confirmed order, 20% before dispatch.</li>
+      <li>Glass warranty: No warranty on glass once installed at site.</li>
+      <li>Installation will be done as per actual site conditions. Additional charges may apply for site complications.</li>
+      <li>Quote Validity: All rates are valid for 7 days from the date of quotation.</li>
+      <li>Delivery Schedule: Delivery time calculated from advance payment date and final drawing confirmation.</li>
+      <li>Transportation: Transportation charges are extra and will be billed at actuals.</li>
+      <li>Material Handover: No claims for breakage, damages, or scratches after material handover.</li>
+      <li>GST: Goods and Services Tax will be charged extra as applicable at the time of billing.</li>
+      <li>Jurisdiction: All disputes are subject to local jurisdiction only.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <strong>Thank You for Choosing Aryan Window World</strong><br>
+    <small>Your Trust, Our Commitment to Excellence</small>
+  </footer>
+</div>
+
+<script>
+let productCount = 0;
+let subtotal = 0;
+let totalItems = 0;
+let totalArea = 0;
+let quoteCounter = 1;
+
+// Set current date
+const today = new Date();
+const day = String(today.getDate()).padStart(2, '0');
+const month = String(today.getMonth() + 1).padStart(2, '0');
+const year = today.getFullYear();
+const formattedDate = `${day}-${month}-${year}`;
+document.getElementById('quotationDate').value = formattedDate;
+
+// Auto Quotation Number
+function generateQuotationNumber() {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const dd = String(today.getDate()).padStart(2, "0");
+  const dateStr = `${yyyy}${mm}${dd}`;
+  const number = String(quoteCounter).padStart(3, "0");
+  return `AWW${dateStr}-${number}`;
+}
+
+function addProduct() {
+  const productCategory = document.getElementById("productCategory").value.trim();
+  const itemType = document.getElementById("itemType").value.trim();
+  const locationArea = document.getElementById("locationArea").value.trim();
+  const area = parseFloat(document.getElementById("area").value || 0);
+  const qty = parseInt(document.getElementById("quantity").value || 0);
+  const rate = parseFloat(document.getElementById("rate").value || 0);
+  
+  if (!productCategory || !itemType || qty === 0 || area === 0 || rate === 0) {
+    alert("Please fill in all required fields (Product Category, Product Type, Quantity, Size, and Rate)");
+    return;
+  }
+
+  const totalItemArea = area * qty;
+  const amount = qty * rate;
+
+  // Build specification details
+  let specDetails = "";
+  const productTitle = productCategory === "Other" ? itemType : `${productCategory} - ${itemType}`;
+  
+  if(document.getElementById("frameName").value.trim()) {
+    specDetails += `<br><b>Frame:</b> ${document.getElementById("frameName").value}`;
+    if(document.getElementById("frameWidth").value.trim()) specDetails += `, W:${document.getElementById("frameWidth").value}`;
+    if(document.getElementById("frameHeight").value.trim()) specDetails += `, H:${document.getElementById("frameHeight").value}`;
+    if(document.getElementById("frameDesc").value.trim()) specDetails += `, ${document.getElementById("frameDesc").value}`;
+  }
+  
+  if(document.getElementById("sashName").value.trim()) {
+    specDetails += `<br><b>Sash:</b> ${document.getElementById("sashName").value}`;
+    if(document.getElementById("sashWidth").value.trim()) specDetails += `, W:${document.getElementById("sashWidth").value}`;
+    if(document.getElementById("sashHeight").value.trim()) specDetails += `, H:${document.getElementById("sashHeight").value}`;
+    if(document.getElementById("sashDesc").value.trim()) specDetails += `, ${document.getElementById("sashDesc").value}`;
+  }
+  
+  if(document.getElementById("lockType").value.trim()) {
+    specDetails += `<br><b>Lock:</b> ${document.getElementById("lockType").value}`;
+    if(document.getElementById("lockBrand").value.trim()) specDetails += `, Brand:${document.getElementById("lockBrand").value}`;
+    if(document.getElementById("lockModel").value.trim()) specDetails += `, Model:${document.getElementById("lockModel").value}`;
+    if(document.getElementById("lockDesc").value.trim()) specDetails += `, ${document.getElementById("lockDesc").value}`;
+  }
+  
+  if(document.getElementById("glassType").value.trim()) {
+    specDetails += `<br><b>Glass:</b> ${document.getElementById("glassType").value}`;
+    if(document.getElementById("glassThickness").value.trim()) specDetails += `, ${document.getElementById("glassThickness").value}mm`;
+    if(document.getElementById("glassWidth").value.trim()) specDetails += `, W:${document.getElementById("glassWidth").value}`;
+    if(document.getElementById("glassHeight").value.trim()) specDetails += `, H:${document.getElementById("glassHeight").value}`;
+    if(document.getElementById("glassDesc").value.trim()) specDetails += `, ${document.getElementById("glassDesc").value}`;
+  }
+
+  productCount++;
+  totalItems += qty;
+  totalArea += totalItemArea;
+
+  const table = document.getElementById("itemsTable").querySelector("tbody");
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td><strong>${productCount}</strong></td>
+    <td style="text-align: left; padding: 8px;"><strong>${productTitle}</strong>${specDetails}</td>
+    <td><strong>${locationArea || '-'}</strong></td>
+    <td>${area.toFixed(2)}</td>
+    <td><strong>${qty}</strong></td>
+    <td>₹${rate.toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
+    <td><strong>₹${amount.toLocaleString('en-IN', {minimumFractionDigits: 2})}</strong></td>
+  `;
+  table.appendChild(row);
+
+  subtotal += amount;
+  const applyGST = document.getElementById("gstCheckbox").checked;
+  const taxes = applyGST ? subtotal * 0.18 : 0;
+  const grandTotal = subtotal + taxes;
+
+  // Update totals
+  document.getElementById("totalItems").innerText = totalItems;
+  document.getElementById("totalArea").innerText = totalArea.toFixed(2);
+  document.getElementById("subtotal").innerText = `₹${subtotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+  document.getElementById("taxes").innerText = `₹${taxes.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+  document.getElementById("grandTotal").innerText = `₹${grandTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+
+  // Update customer info in PDF
+  document.getElementById("outCustName").innerText = document.getElementById("custName").value || "-";
+  document.getElementById("outProjectName").innerText = document.getElementById("projectName").value || "-";
+
+  // Generate quotation number on first item
+  if (productCount === 1) {
+    const quoteNo = generateQuotationNumber();
+    document.getElementById("outQuotationNo").innerText = quoteNo;
+    quoteCounter++;
+  }
+  document.getElementById("outQuotationDate").innerText = document.getElementById("quotationDate").value;
+
+  // Clear form fields
+  [
+    "productCategory", "itemType", "locationArea", "area", "quantity", "rate", "frameName", "frameWidth", "frameHeight", "frameDesc",
+    "sashName", "sashWidth", "sashHeight", "sashDesc", "lockType", "lockBrand", "lockModel", "lockDesc",
+    "glassType", "glassThickness", "glassWidth", "glassHeight", "glassDesc"
+  ].forEach(id => {
+    const element = document.getElementById(id);
+    if (element) element.value = "";
+  });
+
+  // Show success message
+  const btn = event.target;
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '<i class="fas fa-check"></i> Item Added!';
+  btn.style.background = '#10b981';
+  setTimeout(() => {
+    btn.innerHTML = originalText;
+    btn.style.background = '';
+  }, 2000);
+}
+
+async function generatePDF() {
+  if (productCount === 0) {
+    alert("Please add at least one product before generating PDF");
+    return;
+  }
+
+  const btn = event.target;
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+  btn.disabled = true;
+
+  try {
+    const { jsPDF } = window.jspdf;
+    const element = document.getElementById("quotation");
+    
+    // Add loading class
+    element.classList.add('loading');
+    
+    // Function to ensure terms appear on second page
+    function ensureTermsOnSecondPage() {
+      const termsSection = document.querySelector('.terms-section');
+      const quotationContent = document.getElementById('quotation');
+      
+      // Show terms section during PDF generation
+      if (termsSection) {
+        termsSection.style.display = 'block';
+        termsSection.style.pageBreakBefore = 'always';
+      }
+    }
+
+    // Add this line before html2canvas call:
+    ensureTermsOnSecondPage();
+    
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff'
+    });
+    
+    const imgData = canvas.toDataURL("image/jpeg", 0.8);
+    const pdf = new jsPDF("p", "mm", "a4");
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = 210;
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    let heightLeft = pdfHeight;
+    let position = 0;
+
+    pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, pdfHeight, 'FAST');
+    heightLeft -= 297;
+
+    while (heightLeft > 0) {
+      position = heightLeft - pdfHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, pdfHeight, 'FAST');
+      heightLeft -= 297;
+    }
+
+    // Generate filename with customer name and date
+    const customerName = document.getElementById("custName").value || "Customer";
+    const quotationNo = document.getElementById("outQuotationNo").innerText;
+    const filename = `${customerName.replace(/\s+/g, '_')}_Quotation_${quotationNo}.pdf`;
+    
+    pdf.save(filename);
+    
+    // Remove loading class
+    element.classList.remove('loading');
+    
+    // Show success message
+    btn.innerHTML = '<i class="fas fa-check"></i> PDF Downloaded!';
+    btn.style.background = '#10b981';
+    
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    alert('Error generating PDF. Please try again.');
+    btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error!';
+    btn.style.background = '#ef4444';
+  }
+  
+  setTimeout(() => {
+    btn.innerHTML = originalText;
+    btn.style.background = '';
+    btn.disabled = false;
+  }, 3000);
+}
+
+// Handle "Other" option for location
+document.getElementById('locationArea').addEventListener('change', function() {
+  if (this.value === 'Other') {
+    const customLocation = prompt('Please enter the location:');
+    if (customLocation && customLocation.trim()) {
+      // Add the custom option to the select
+      const option = document.createElement('option');
+      option.value = customLocation.trim();
+      option.textContent = customLocation.trim();
+      option.selected = true;
+      
+      // Insert before "Other" option
+      const otherOption = this.querySelector('option[value="Other"]');
+      this.insertBefore(option, otherOption);
+    } else {
+      this.value = '';
+    }
+  }
+});
+
+// Add input validation and auto-formatting
+document.addEventListener('DOMContentLoaded', function() {
+  // Format number inputs
+  ['area', 'rate'].forEach(id => {
+    const input = document.getElementById(id);
+    if (input) {
+      input.addEventListener('blur', function() {
+        if (this.value) {
+          this.value = parseFloat(this.value).toFixed(2);
+        }
+      });
+    }
+  });
+  
+  // Auto-update customer info in preview
+  ['custName', 'projectName'].forEach(id => {
+    const input = document.getElementById(id);
+    if (input) {
+      input.addEventListener('input', function() {
+        const outputId = 'out' + id.charAt(0).toUpperCase() + id.slice(1);
+        const output = document.getElementById(outputId);
+        if (output) {
+          output.innerText = this.value || '-';
+        }
+      });
+    }
+  });
+  
+  // Update GST calculation when checkbox changes
+  document.getElementById('gstCheckbox').addEventListener('change', function() {
+    if (subtotal > 0) {
+      const taxes = this.checked ? subtotal * 0.18 : 0;
+      const grandTotal = subtotal + taxes;
+      document.getElementById("taxes").innerText = `₹${taxes.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+      document.getElementById("grandTotal").innerText = `₹${grandTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+    }
+  });
+
+  // Mobile-specific enhancements
+  if (window.innerWidth <= 768) {
+    // Add touch-friendly interactions
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('touchstart', function() {
+        this.style.transform = 'scale(0.98)';
+      });
+      
+      btn.addEventListener('touchend', function() {
+        this.style.transform = '';
+      });
+    });
+
+    // Optimize table scrolling on mobile
+    const table = document.getElementById('itemsTable');
+    if (table) {
+      table.addEventListener('touchstart', function(e) {
+        this.style.webkitOverflowScrolling = 'touch';
+      });
+    }
+
+    // Auto-scroll to PDF preview when item is added
+    const originalAddProduct = window.addProduct;
+    window.addProduct = function() {
+      originalAddProduct.call(this);
+      
+      // Scroll to PDF preview on mobile after adding item
+      setTimeout(() => {
+        const pdfContainer = document.getElementById('quotation');
+        if (pdfContainer && window.innerWidth <= 768) {
+          pdfContainer.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
+        }
+      }, 500);
+    };
+  }
+
+  // Handle orientation changes
+  window.addEventListener('orientationchange', function() {
+    setTimeout(() => {
+      // Recalculate layout after orientation change
+      window.dispatchEvent(new Event('resize'));
+    }, 100);
+  });
+
+  // Improve form usability on mobile
+  const inputs = document.querySelectorAll('input, textarea, select');
+  inputs.forEach(input => {
+    // Prevent zoom on iOS when focusing inputs
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+      input.addEventListener('focus', function() {
+        document.querySelector('meta[name=viewport]').content = 
+          'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+      });
+      
+      input.addEventListener('blur', function() {
+        document.querySelector('meta[name=viewport]').content = 
+          'width=device-width, initial-scale=1.0';
+      });
+    }
+  });
+});
+
+// Performance optimization for mobile
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(() => {
+    // Lazy load non-critical features
+    console.log('App optimized for performance');
+  });
+}
+
+// Add service worker for PWA capabilities (optional)
+if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+  navigator.serviceWorker.register('/sw.js').catch(console.error);
+}
+</script>
+</body>
+</html>
