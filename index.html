@@ -848,7 +848,7 @@ button:focus-visible {
   </div>
 
   <!-- Frame Details -->
-  <h3> Frame Specifications</h3>
+  <h2> Frame Specifications</h2>
   <div class="grid-container">
     <div class="grid-item">
       <label>Frame Name</label>
@@ -869,7 +869,7 @@ button:focus-visible {
   </div>
 
   <!-- Sash Details -->
-  <h3> Sash Specifications</h3>
+  <h2> Sash Specifications</h2>
   <div class="grid-container">
     <div class="grid-item">
       <label>Sash Name</label>
@@ -890,7 +890,7 @@ button:focus-visible {
   </div>
 
   <!-- Lock Details -->
-  <h3> Lock Specifications</h3>
+  <h2> Lock Specifications</h2>
   <div class="grid-container">
     <div class="grid-item">
       <label>Lock Type</label>
@@ -911,7 +911,7 @@ button:focus-visible {
   </div>
 
   <!-- Glass Details -->
-  <h3> Glass Specifications</h3>
+  <h2> Glass Specifications</h2>
   <div class="grid-container">
     <div class="grid-item">
       <label>Glass Type</label>
@@ -937,7 +937,7 @@ button:focus-visible {
 
   <div class="checkbox-container">
     <input type="checkbox" id="gstCheckbox">
-    <label for="gstCheckbox"><i class="fas fa-percentage"></i> Apply GST (18%)</label>
+    <label for="gstCheckbox"> Apply GST (18%)</label>
   </div>
 
   <button class="btn" onclick="addProduct()">
@@ -952,9 +952,9 @@ button:focus-visible {
 <div id="quotation" class="pdf-container">
   <div class="pdf-header">
     <div class="pdf-logo-container">
-      <div class="pdf-logo">AW</div>
+      <!-- <div class="pdf-logo">AW</div> -->
       <div>
-        <h1>Aryan Window World</h1>
+        <h1>Quotation</h1>
       </div>
     </div>
     <div class="header-info">
@@ -1053,7 +1053,7 @@ function generateQuotationNumber() {
   const dd = String(today.getDate()).padStart(2, "0");
   const dateStr = `${yyyy}${mm}${dd}`;
   const number = String(quoteCounter).padStart(3, "0");
-  return `AWW${dateStr}-${number}`;
+  return `AWW-${dateStr}`;
 }
 
 function addProduct() {
