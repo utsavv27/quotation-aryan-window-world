@@ -236,7 +236,7 @@ textarea {
 .pdf-header {
   text-align: center;
   margin-bottom: clamp(20px, 4vw, 25px);
-  border-bottom: 3px solid #144B8C;
+  border-bottom: 4px solid #083060;
   padding-bottom: clamp(12px, 2.5vw, 15px);
 }
 
@@ -252,7 +252,7 @@ textarea {
 .pdf-logo {
   width: clamp(40px, 8vw, 50px);
   height: clamp(40px, 8vw, 50px);
-  background: linear-gradient(135deg, #144B8C, #1e40af);
+  background: linear-gradient(135deg, #104A8C);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -951,15 +951,15 @@ button:focus-visible {
 <!-- PDF Preview -->
 <div id="quotation" class="pdf-container">
   <div class="pdf-header">
-    <div class="pdf-logo-container">
-      <!-- <div class="pdf-logo">AW</div> -->
-      <div>
-        <h1>Aryan Window World</h1>
-      </div>
-     </div>
-      <div>
-        <h3>Professional Quotation</h3>
-      </div>
+    <div style="text-align: center; padding: 20px; border-bottom: 2px solid #104A8C; margin-bottom: 20px;">
+  <h1 style="font-size: 28px; margin: 0; font-weight: bold; letter-spacing: 1px; color: #104A8C; font-family: Arial, sans-serif;">
+    Aryan Window World
+  </h1>
+  <h3 style="font-size: 18px; margin: 5px 0 0 0; font-weight: normal; color: #333; font-family: Arial, sans-serif;">
+    Professional Quotation
+  </h3>
+</div>
+
     <div class="header-info">
       <div><strong>Date:</strong> <span id="outQuotationDate"></span></div>
       <div><strong>Quotation No:</strong> <span id="outQuotationNo"></span></div>
