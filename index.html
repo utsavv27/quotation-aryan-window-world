@@ -116,7 +116,7 @@ h3, h4 {
 .grid-item { 
   display: flex; 
   flex-direction: column; 
-  min-width: 0; /* Allow items to shrink */
+  min-width: 0;
 }
 
 .grid-item label {
@@ -174,7 +174,7 @@ textarea {
   gap: 8px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  min-height: 44px; /* Touch-friendly minimum */
+  min-height: 44px;
 }
 
 .btn:hover { 
@@ -192,6 +192,25 @@ textarea {
 
 .btn-secondary:hover {
   box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px);
+  font-size: clamp(10px, 2vw, 12px);
+  min-height: 36px;
+}
+
+.btn-danger:hover {
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+}
+
+.btn-add-field {
+  background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+}
+
+.btn-add-field:hover {
+  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3);
 }
 
 .checkbox-container {
@@ -217,6 +236,39 @@ textarea {
   color: #374151;
   cursor: pointer;
   font-size: clamp(12px, 2.5vw, 14px);
+}
+
+.custom-field-item {
+  background: #f0f9ff;
+  border: 2px solid #bae6fd;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  position: relative;
+  animation: slideIn 0.3s ease;
+}
+
+.custom-field-item h4 {
+  color: #0369a1;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.custom-field-item .btn-danger {
+  margin: 0;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .pdf-container { 
@@ -403,360 +455,45 @@ footer {
   font-weight: 500;
 }
 
-/* Desktop and tablet column widths */
 @media (min-width: 769px) {
-  table th:nth-child(1), table td:nth-child(1) { width: 7%; }  /* SR NO */
-  table th:nth-child(2), table td:nth-child(2) { width: 40%; text-align: left; } /* SPECIFICATION */
-  table th:nth-child(3), table td:nth-child(3) { width: 12%; } /* LOCATION */
-  table th:nth-child(4), table td:nth-child(4) { width: 10%; } /* SIZE */
-  table th:nth-child(5), table td:nth-child(5) { width: 6%; }  /* QTY */
-  table th:nth-child(6), table td:nth-child(6) { width: 14%; } /* RATE */
-  table th:nth-child(7), table td:nth-child(7) { width: 14%; } /* AMOUNT */
+  table th:nth-child(1), table td:nth-child(1) { width: 7%; }
+  table th:nth-child(2), table td:nth-child(2) { width: 40%; text-align: left; }
+  table th:nth-child(3), table td:nth-child(3) { width: 12%; }
+  table th:nth-child(4), table td:nth-child(4) { width: 10%; }
+  table th:nth-child(5), table td:nth-child(5) { width: 6%; }
+  table th:nth-child(6), table td:nth-child(6) { width: 14%; }
+  table th:nth-child(7), table td:nth-child(7) { width: 14%; }
 }
 
-/* Mobile Specific Styles */
 @media (max-width: 768px) {
-  body {
-    padding: 10px;
-  }
-  
-  .main-header {
-    padding: 20px 15px;
-    margin-bottom: 20px;
-  }
-  
-  .logo-container {
-    gap: 12px;
-  }
-  
-  .logo {
-    width: 50px;
-    height: 50px;
-    font-size: 20px;
-  }
-  
-  .grid-container {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  
-  .customer-info-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  
-  .pdf-header .header-info {
-    flex-direction: column;
-    gap: 8px;
-    align-items: center;
-  }
-  
-  .form-section {
-    padding: 15px;
-    margin-bottom: 15px;
-  }
-  
-  .pdf-container {
-    padding: 12px;
-    margin: 10px auto;
-    border-radius: 12px;
-  }
-  
-  .btn {
-    width: 100%;
-    margin: 5px 0;
-    justify-content: center;
-    padding: 12px 20px;
-  }
-  
-  .checkbox-container {
-    padding: 12px;
-    gap: 10px;
-  }
-  
-  table {
-    font-size: 9px;
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-  
-  table th, table td {
-    padding: 6px 4px;
-    min-width: 60px;
-  }
-  
-  /* Specific column widths for mobile */
-  table th:nth-child(1), table td:nth-child(1) { width: 5%; }  /* SR NO */
-  table th:nth-child(2), table td:nth-child(2) { width: 45%; text-align: left; } /* SPECIFICATION */
-  table th:nth-child(3), table td:nth-child(3) { width: 12%; } /* LOCATION */
-  table th:nth-child(4), table td:nth-child(4) { width: 10%; } /* SIZE */
-  table th:nth-child(5), table td:nth-child(5) { width: 5%; }  /* QTY */
-  table th:nth-child(6), table td:nth-child(6) { width: 11%; } /* RATE */
-  table th:nth-child(7), table td:nth-child(7) { width: 12%; } /* AMOUNT */
-}
-
-/* Small Mobile Devices */
-@media (max-width: 480px) {
-  body {
-    padding: 8px;
-  }
-  
-  .logo-container {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .company-name {
-    text-align: center;
-    font-size: 18px;
-  }
-  
-  .tagline {
-    font-size: 11px;
-  }
-  
-  .pdf-logo-container {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .pdf-header h1 {
-    font-size: 18px;
-  }
-  
-  .form-section {
-    padding: 12px;
-    border-radius: 12px;
-  }
-  
-  .pdf-container {
-    padding: 10px;
-    border-radius: 10px;
-  }
-  
-  table {
-    font-size: 8px;
-  }
-  
-  table th, table td {
-    padding: 4px 3px;
-    min-width: 50px;
-  }
-  
-  .btn {
-    font-size: 11px;
-    padding: 10px 16px;
-    margin: 4px 0;
-  }
-  
-  h2 {
-    font-size: 14px;
-    margin-bottom: 15px;
-  }
-  
-  h3, h4 {
-    font-size: 12px;
-    margin-bottom: 12px;
-  }
-  
-  .grid-item label {
-    font-size: 11px;
-    margin-bottom: 6px;
-  }
-  
-  input, textarea, select {
-    padding: 10px 12px;
-    font-size: 12px;
-    border-radius: 8px;
-  }
-  
-  textarea {
-    min-height: 60px;
-  }
-}
-
-/* Large Tablets and Small Laptops */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .grid-container {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
-  }
-  
-  .customer-info-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  }
-  
-  .form-section {
-    padding: 22px;
-  }
-}
-
-/* Desktop Styles */
-@media (min-width: 1025px) {
-  .grid-container {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 18px;
-  }
-  
-  .customer-info-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  }
-  
-  .form-section {
-    padding: 25px;
-  }
-  
-  .pdf-container {
-    max-width: 900px;
-    padding: 20px;
-  }
-}
-
-/* Print Styles */
-@media print {
-  body {
-    background: white;
-    padding: 0;
-  }
-  
-  .form-section:not(#quotation) {
-    display: none;
-  }
-  
-  .main-header {
-    display: none;
-  }
-  
-  .pdf-container {
-    box-shadow: none;
-    border-radius: 0;
-    max-width: none;
-    width: 100%;
-    margin: 0;
-    padding: 15mm;
-  }
-  
-  table {
-    font-size: 10px;
-    display: table;
-    white-space: normal;
-  }
-  
-  table thead, table tbody, table tr {
-    display: table-row-group;
-  }
-  
-  table tr {
-    display: table-row;
-  }
-  
-  table th, table td {
-    display: table-cell;
-  }
-}
-
-/* Terms and Conditions - Second Page Only */
-.terms-section {
-  page-break-before: always;
-  page-break-inside: avoid;
-  margin-top: 0;
-  padding-top: 20px;
-}
-
-/* Hide terms on screen, show only in print/PDF */
-@media screen {
-  .terms-section {
-    display: none;
-  }
+  body { padding: 10px; }
+  .main-header { padding: 20px 15px; margin-bottom: 20px; }
+  .logo-container { gap: 12px; }
+  .logo { width: 50px; height: 50px; font-size: 20px; }
+  .grid-container { grid-template-columns: 1fr; gap: 12px; }
+  .customer-info-grid { grid-template-columns: 1fr; gap: 12px; }
+  .pdf-header .header-info { flex-direction: column; gap: 8px; align-items: center; }
+  .form-section { padding: 15px; margin-bottom: 15px; }
+  .pdf-container { padding: 12px; margin: 10px auto; border-radius: 12px; }
+  .btn { width: 100%; margin: 5px 0; justify-content: center; padding: 12px 20px; }
+  .checkbox-container { padding: 12px; gap: 10px; }
+  table { font-size: 9px; display: block; overflow-x: auto; white-space: nowrap; }
+  table th, table td { padding: 6px 4px; min-width: 60px; }
+  table th:nth-child(1), table td:nth-child(1) { width: 5%; }
+  table th:nth-child(2), table td:nth-child(2) { width: 45%; text-align: left; }
+  table th:nth-child(3), table td:nth-child(3) { width: 12%; }
+  table th:nth-child(4), table td:nth-child(4) { width: 10%; }
+  table th:nth-child(5), table td:nth-child(5) { width: 5%; }
+  table th:nth-child(6), table td:nth-child(6) { width: 11%; }
+  table th:nth-child(7), table td:nth-child(7) { width: 12%; }
 }
 
 @media print {
-  .terms-section {
-    display: block;
-    page-break-before: always;
-  }
-}
-
-/* For PDF generation - force new page */
-.pdf-page-break {
-  page-break-before: always;
-  break-before: page;
-}
-
-.loading {
-  opacity: 0.7;
-  pointer-events: none;
-}
-
-.fade-in {
-  animation: fadeIn 0.5s ease-in;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Scrollbar Styling for better mobile experience */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #144B8C;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #1e40af;
-}
-
-/* Focus states for better accessibility */
-input:focus-visible, 
-textarea:focus-visible, 
-select:focus-visible,
-button:focus-visible {
-  outline: 2px solid #144B8C;
-  outline-offset: 2px;
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .btn {
-    border: 2px solid currentColor;
-  }
-  
-  table th {
-    border: 2px solid #000;
-  }
-  
-  .pdf-container {
-    border: 2px solid #000;
-  }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  
-  .fade-in {
-    animation: none;
-  }
-  
-  .btn:hover {
-    transform: none;
-  }
+  body { background: white; padding: 0; }
+  .form-section:not(#quotation) { display: none; }
+  .main-header { display: none; }
+  .pdf-container { box-shadow: none; border-radius: 0; max-width: none; width: 100%; margin: 0; padding: 15mm; }
+  table { font-size: 10px; display: table; white-space: normal; }
 }
 </style>
 </head>
@@ -764,16 +501,13 @@ button:focus-visible {
 
 <div class="main-header fade-in">
   <div class="logo-container">
-    <div> <div >
-        <img src="aryan.png" alt="Logo" style="width:170px; height:auto;">
-      </div>
-      <!-- <div class="company-name">Aryan Window World</div> -->
-      <!-- <div class="tagline">Premium Windows, Doors & Aluminum Solutions</div> -->
+    <div>
+      <div class="company-name">Aryan Window World</div>
+      <div class="tagline">Premium Windows, Doors & Aluminum Solutions</div>
     </div>
   </div>
 </div>
 
-<!-- Customer Info -->
 <div class="form-section fade-in">
   <h2><i class="fas fa-user"></i> Customer Information</h2>
   <div class="grid-container">
@@ -792,7 +526,6 @@ button:focus-visible {
   </div>
 </div>
 
-<!-- Product Form -->
 <div class="form-section fade-in">
   <h2><i class="fas fa-tools"></i> Add Product Details</h2>
   
@@ -847,7 +580,6 @@ button:focus-visible {
     </div>
   </div>
 
-  <!-- Frame Details -->
   <h2> Frame Specifications</h2>
   <div class="grid-container">
     <div class="grid-item">
@@ -868,7 +600,6 @@ button:focus-visible {
     </div>
   </div>
 
-  <!-- Sash Details -->
   <h2> Sash Specifications</h2>
   <div class="grid-container">
     <div class="grid-item">
@@ -889,7 +620,6 @@ button:focus-visible {
     </div>
   </div>
 
-  <!-- Lock Details -->
   <h2> Lock Specifications</h2>
   <div class="grid-container">
     <div class="grid-item">
@@ -910,7 +640,6 @@ button:focus-visible {
     </div>
   </div>
 
-  <!-- Glass Details -->
   <h2> Glass Specifications</h2>
   <div class="grid-container">
     <div class="grid-item">
@@ -935,6 +664,15 @@ button:focus-visible {
     </div>
   </div>
 
+  <!-- Custom Fields Section -->
+  <div style="border-top: 2px solid #e5e7eb; padding-top: 20px; margin-top: 20px;">
+    <h2><i class="fas fa-plus-circle"></i> Custom Fields</h2>
+    <div id="customFieldsContainer"></div>
+    <button class="btn btn-add-field" onclick="addCustomField()">
+      <i class="fas fa-plus"></i> Add Custom Field
+    </button>
+  </div>
+
   <div class="checkbox-container">
     <input type="checkbox" id="gstCheckbox">
     <label for="gstCheckbox"> Apply GST (18%)</label>
@@ -948,18 +686,16 @@ button:focus-visible {
   </button>
 </div>
 
-<!-- PDF Preview -->
 <div id="quotation" class="pdf-container">
   <div class="pdf-header">
     <div style="text-align: center; padding: 20px; border-bottom: 2px solid #104A8C; margin-bottom: 20px;">
-  <h1 style="font-size: 28px; margin: 0; font-weight: bold; letter-spacing: 1px; color: #104A8C; font-family: Arial, sans-serif;">
-    Aryan Window World
-  </h1>
-  <h3 style="font-size: 18px; margin: 5px 0 0 0; font-weight: normal; color: #333; font-family: Arial, sans-serif;">
-    Professional Quotation
-  </h3>
-</div>
-
+      <h1 style="font-size: 28px; margin: 0; font-weight: bold; letter-spacing: 1px; color: #104A8C; font-family: Arial, sans-serif;">
+        Aryan Window World
+      </h1>
+      <h3 style="font-size: 18px; margin: 5px 0 0 0; font-weight: normal; color: #333; font-family: Arial, sans-serif;">
+        Professional Quotation
+      </h3>
+    </div>
     <div class="header-info">
       <div><strong>Date:</strong> <span id="outQuotationDate"></span></div>
       <div><strong>Quotation No:</strong> <span id="outQuotationNo"></span></div>
@@ -980,7 +716,6 @@ button:focus-visible {
     </div>
   </div>
 
-  <!-- Items Table -->
   <div id="products-section" class="section">
     <h2>Items</h2>
     <table id="itemsTable">
@@ -999,7 +734,6 @@ button:focus-visible {
     </table>
   </div>
 
-  <!-- Totals -->
   <div class="section totals" id="totals-section">
     <table>
       <tr><td><strong>Total Items</strong></td><td id="totalItems">0</td></tr>
@@ -1009,23 +743,6 @@ button:focus-visible {
       <tr class="grand-total"><td><strong>Grand Total</strong></td><td id="grandTotal">₹0</td></tr>
     </table>
   </div>
-
-  <!-- Terms -->
-  <!-- <div class="section">
-    <h2>Terms and Conditions</h2>
-    <ul class="terms-list">
-      <li>Material used: Premium Aluminum Alloy 6063 T6 with superior quality standards.</li>
-      <li>Payment Terms: 80% advance with confirmed order, 20% before dispatch.</li>
-      <li>Glass warranty: No warranty on glass once installed at site.</li>
-      <li>Installation will be done as per actual site conditions. Additional charges may apply for site complications.</li>
-      <li>Quote Validity: All rates are valid for 7 days from the date of quotation.</li>
-      <li>Delivery Schedule: Delivery time calculated from advance payment date and final drawing confirmation.</li>
-      <li>Transportation: Transportation charges are extra and will be billed at actuals.</li>
-      <li>Material Handover: No claims for breakage, damages, or scratches after material handover.</li>
-      <li>GST: Goods and Services Tax will be charged extra as applicable at the time of billing.</li>
-      <li>Jurisdiction: All disputes are subject to local jurisdiction only.</li>
-    </ul>
-  </div> -->
 
   <footer>
     <strong>Thank You for Choosing Aryan Window World</strong><br>
@@ -1039,8 +756,9 @@ let subtotal = 0;
 let totalItems = 0;
 let totalArea = 0;
 let quoteCounter = 1;
+let customFieldCount = 0;
+let customFieldsData = [];
 
-// Set current date
 const today = new Date();
 const day = String(today.getDate()).padStart(2, '0');
 const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -1048,15 +766,84 @@ const year = today.getFullYear();
 const formattedDate = `${day}-${month}-${year}`;
 document.getElementById('quotationDate').value = formattedDate;
 
-// Auto Quotation Number
 function generateQuotationNumber() {
   const today = new Date();
   const yyyy = today.getFullYear();
   const mm = String(today.getMonth() + 1).padStart(2, "0");
   const dd = String(today.getDate()).padStart(2, "0");
   const dateStr = `${yyyy}${mm}${dd}`;
-  const number = String(quoteCounter).padStart(3, "0");
   return `AWW-${dateStr}`;
+}
+
+function addCustomField() {
+  customFieldCount++;
+  const fieldId = `customField${customFieldCount}`;
+  
+  const fieldHTML = `
+    <div class="custom-field-item" id="${fieldId}">
+      <h4>
+        <span><i class="fas fa-wrench"></i> Custom Field ${customFieldCount}</span>
+        <button class="btn btn-danger" onclick="removeCustomField('${fieldId}')">
+          <i class="fas fa-trash"></i> Remove
+        </button>
+      </h4>
+      <div class="grid-container">
+        <div class="grid-item">
+          <label>Field Name</label>
+          <input type="text" id="${fieldId}_name" placeholder="e.g., Hardware, Accessories">
+        </div>
+        <div class="grid-item">
+          <label>Width (mm)</label>
+          <input type="text" id="${fieldId}_width" placeholder="e.g., 100mm">
+        </div>
+        <div class="grid-item">
+          <label>Height (mm)</label>
+          <input type="text" id="${fieldId}_height" placeholder="e.g., 150mm">
+        </div>
+        <div class="grid-item">
+          <label>Length (mm)</label>
+          <input type="text" id="${fieldId}_length" placeholder="e.g., 200mm">
+        </div>
+        <div class="grid-item">
+          <label>Description</label>
+          <textarea id="${fieldId}_desc" placeholder="Additional details..."></textarea>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.getElementById('customFieldsContainer').insertAdjacentHTML('beforeend', fieldHTML);
+}
+
+function removeCustomField(fieldId) {
+  const field = document.getElementById(fieldId);
+  if (field) {
+    field.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => {
+      field.remove();
+    }, 300);
+  }
+}
+
+function getCustomFieldsData() {
+  const customFields = [];
+  const container = document.getElementById('customFieldsContainer');
+  const fieldItems = container.querySelectorAll('.custom-field-item');
+  
+  fieldItems.forEach(item => {
+    const fieldId = item.id;
+    const name = document.getElementById(`${fieldId}_name`)?.value.trim();
+    const width = document.getElementById(`${fieldId}_width`)?.value.trim();
+    const height = document.getElementById(`${fieldId}_height`)?.value.trim();
+    const length = document.getElementById(`${fieldId}_length`)?.value.trim();
+    const desc = document.getElementById(`${fieldId}_desc`)?.value.trim();
+    
+    if (name) {
+      customFields.push({ name, width, height, length, desc });
+    }
+  });
+  
+  return customFields;
 }
 
 function addProduct() {
@@ -1075,7 +862,6 @@ function addProduct() {
   const totalItemArea = area * qty;
   const amount = qty * rate;
 
-  // Build specification details
   let specDetails = "";
   const productTitle = productCategory === "Other" ? itemType : `${productCategory} - ${itemType}`;
   
@@ -1108,6 +894,18 @@ function addProduct() {
     if(document.getElementById("glassDesc").value.trim()) specDetails += `, ${document.getElementById("glassDesc").value}`;
   }
 
+  // Add custom fields data
+  const customFields = getCustomFieldsData();
+  customFields.forEach(field => {
+    specDetails += `<br><b>${field.name}:</b>`;
+    const details = [];
+    if (field.width) details.push(`W:${field.width}`);
+    if (field.height) details.push(`H:${field.height}`);
+    if (field.length) details.push(`L:${field.length}`);
+    if (details.length > 0) specDetails += ` ${details.join(', ')}`;
+    if (field.desc) specDetails += `, ${field.desc}`;
+  });
+
   productCount++;
   totalItems += qty;
   totalArea += totalItemArea;
@@ -1130,18 +928,15 @@ function addProduct() {
   const taxes = applyGST ? subtotal * 0.18 : 0;
   const grandTotal = subtotal + taxes;
 
-  // Update totals
   document.getElementById("totalItems").innerText = totalItems;
   document.getElementById("totalArea").innerText = totalArea.toFixed(2);
   document.getElementById("subtotal").innerText = `₹${subtotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
   document.getElementById("taxes").innerText = `₹${taxes.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
   document.getElementById("grandTotal").innerText = `₹${grandTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
 
-  // Update customer info in PDF
   document.getElementById("outCustName").innerText = document.getElementById("custName").value || "-";
   document.getElementById("outProjectName").innerText = document.getElementById("projectName").value || "-";
 
-  // Generate quotation number on first item
   if (productCount === 1) {
     const quoteNo = generateQuotationNumber();
     document.getElementById("outQuotationNo").innerText = quoteNo;
@@ -1159,7 +954,10 @@ function addProduct() {
     if (element) element.value = "";
   });
 
-  // Show success message
+  // Clear custom fields
+  document.getElementById('customFieldsContainer').innerHTML = '';
+  customFieldCount = 0;
+
   const btn = event.target;
   const originalText = btn.innerHTML;
   btn.innerHTML = '<i class="fas fa-check"></i> Item Added!';
@@ -1184,24 +982,7 @@ async function generatePDF() {
   try {
     const { jsPDF } = window.jspdf;
     const element = document.getElementById("quotation");
-    
-    // Add loading class
     element.classList.add('loading');
-    
-    // Function to ensure terms appear on second page
-    function ensureTermsOnSecondPage() {
-      const termsSection = document.querySelector('.terms-section');
-      const quotationContent = document.getElementById('quotation');
-      
-      // Show terms section during PDF generation
-      if (termsSection) {
-        termsSection.style.display = 'block';
-        termsSection.style.pageBreakBefore = 'always';
-      }
-    }
-
-    // Add this line before html2canvas call:
-    ensureTermsOnSecondPage();
     
     const canvas = await html2canvas(element, {
       scale: 2,
@@ -1228,17 +1009,13 @@ async function generatePDF() {
       heightLeft -= 297;
     }
 
-    // Generate filename with customer name and date
     const customerName = document.getElementById("custName").value || "Customer";
     const quotationNo = document.getElementById("outQuotationNo").innerText;
     const filename = `${customerName.replace(/\s+/g, '_')}_Quotation_${quotationNo}.pdf`;
     
     pdf.save(filename);
-    
-    // Remove loading class
     element.classList.remove('loading');
     
-    // Show success message
     btn.innerHTML = '<i class="fas fa-check"></i> PDF Downloaded!';
     btn.style.background = '#10b981';
     
@@ -1256,18 +1033,14 @@ async function generatePDF() {
   }, 3000);
 }
 
-// Handle "Other" option for location
 document.getElementById('locationArea').addEventListener('change', function() {
   if (this.value === 'Other') {
     const customLocation = prompt('Please enter the location:');
     if (customLocation && customLocation.trim()) {
-      // Add the custom option to the select
       const option = document.createElement('option');
       option.value = customLocation.trim();
       option.textContent = customLocation.trim();
       option.selected = true;
-      
-      // Insert before "Other" option
       const otherOption = this.querySelector('option[value="Other"]');
       this.insertBefore(option, otherOption);
     } else {
@@ -1276,9 +1049,7 @@ document.getElementById('locationArea').addEventListener('change', function() {
   }
 });
 
-// Add input validation and auto-formatting
 document.addEventListener('DOMContentLoaded', function() {
-  // Format number inputs
   ['area', 'rate'].forEach(id => {
     const input = document.getElementById(id);
     if (input) {
@@ -1290,7 +1061,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  // Auto-update customer info in preview
   ['custName', 'projectName'].forEach(id => {
     const input = document.getElementById(id);
     if (input) {
@@ -1304,7 +1074,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  // Update GST calculation when checkbox changes
   document.getElementById('gstCheckbox').addEventListener('change', function() {
     if (subtotal > 0) {
       const taxes = this.checked ? subtotal * 0.18 : 0;
@@ -1313,84 +1082,21 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById("grandTotal").innerText = `₹${grandTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
     }
   });
-
-  // Mobile-specific enhancements
-  if (window.innerWidth <= 768) {
-    // Add touch-friendly interactions
-    document.querySelectorAll('.btn').forEach(btn => {
-      btn.addEventListener('touchstart', function() {
-        this.style.transform = 'scale(0.98)';
-      });
-      
-      btn.addEventListener('touchend', function() {
-        this.style.transform = '';
-      });
-    });
-
-    // Optimize table scrolling on mobile
-    const table = document.getElementById('itemsTable');
-    if (table) {
-      table.addEventListener('touchstart', function(e) {
-        this.style.webkitOverflowScrolling = 'touch';
-      });
-    }
-
-    // Auto-scroll to PDF preview when item is added
-    const originalAddProduct = window.addProduct;
-    window.addProduct = function() {
-      originalAddProduct.call(this);
-      
-      // Scroll to PDF preview on mobile after adding item
-      setTimeout(() => {
-        const pdfContainer = document.getElementById('quotation');
-        if (pdfContainer && window.innerWidth <= 768) {
-          pdfContainer.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start' 
-          });
-        }
-      }, 500);
-    };
-  }
-
-  // Handle orientation changes
-  window.addEventListener('orientationchange', function() {
-    setTimeout(() => {
-      // Recalculate layout after orientation change
-      window.dispatchEvent(new Event('resize'));
-    }, 100);
-  });
-
-  // Improve form usability on mobile
-  const inputs = document.querySelectorAll('input, textarea, select');
-  inputs.forEach(input => {
-    // Prevent zoom on iOS when focusing inputs
-    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-      input.addEventListener('focus', function() {
-        document.querySelector('meta[name=viewport]').content = 
-          'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
-      });
-      
-      input.addEventListener('blur', function() {
-        document.querySelector('meta[name=viewport]').content = 
-          'width=device-width, initial-scale=1.0';
-      });
-    }
-  });
 });
-
-// Performance optimization for mobile
-if ('requestIdleCallback' in window) {
-  requestIdleCallback(() => {
-    // Lazy load non-critical features
-    console.log('App optimized for performance');
-  });
-}
-
-// Add service worker for PWA capabilities (optional)
-if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
-  navigator.serviceWorker.register('/sw.js').catch(console.error);
-}
 </script>
+
+<style>
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+</style>
+
 </body>
 </html>
