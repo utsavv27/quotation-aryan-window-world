@@ -502,7 +502,11 @@ footer {
 <div class="main-header fade-in">
   <div class="logo-container">
     <div>
-      <div class="company-name">Aryan Window World</div>
+      <!-- <div class="company-name">Aryan Window World</div> -->
+       <div>
+        <img src="aryan.png" alt="Aryan Window World" style="max-width: 160px; height: auto;">
+       </div>
+
       <div class="tagline">Premium Windows, Doors & Aluminum Solutions</div>
     </div>
   </div>
@@ -595,6 +599,10 @@ footer {
       <input type="text" id="frameHeight" placeholder="e.g., 80mm">
     </div>
     <div class="grid-item">
+      <label>Length (mm)</label>
+      <input type="text" id="frameLength" placeholder="e.g., 100mm">
+    </div>
+    <div class="grid-item">
       <label>Description</label>
       <textarea id="frameDesc" placeholder="Additional frame details..."></textarea>
     </div>
@@ -615,6 +623,10 @@ footer {
       <input type="text" id="sashHeight" placeholder="e.g., 70mm">
     </div>
     <div class="grid-item">
+      <label>Length (mm)</label>
+      <input type="text" id="sashLength" placeholder="e.g., 90mm">
+    </div>
+    <div class="grid-item">
       <label>Description</label>
       <textarea id="sashDesc" placeholder="Additional sash details..."></textarea>
     </div>
@@ -633,6 +645,10 @@ footer {
     <div class="grid-item">
       <label>Model</label>
       <input type="text" id="lockModel" placeholder="e.g., YS170">
+    </div>
+    <div class="grid-item">
+      <label>Length (mm)</label>
+      <input type="text" id="lockLength" placeholder="e.g., 50mm">
     </div>
     <div class="grid-item">
       <label>Description</label>
@@ -657,6 +673,10 @@ footer {
     <div class="grid-item">
       <label>Height (mm)</label>
       <input type="text" id="glassHeight" placeholder="Glass height">
+    </div>
+    <div class="grid-item">
+      <label>Length (mm)</label>
+      <input type="text" id="glassLength" placeholder="e.g., 120mm">
     </div>
     <div class="grid-item">
       <label>Description</label>
@@ -869,6 +889,7 @@ function addProduct() {
     specDetails += `<br><b>Frame:</b> ${document.getElementById("frameName").value}`;
     if(document.getElementById("frameWidth").value.trim()) specDetails += `, W:${document.getElementById("frameWidth").value}`;
     if(document.getElementById("frameHeight").value.trim()) specDetails += `, H:${document.getElementById("frameHeight").value}`;
+    if(document.getElementById("frameLength").value.trim()) specDetails += `, L:${document.getElementById("frameLength").value}`;
     if(document.getElementById("frameDesc").value.trim()) specDetails += `, ${document.getElementById("frameDesc").value}`;
   }
   
@@ -876,6 +897,7 @@ function addProduct() {
     specDetails += `<br><b>Sash:</b> ${document.getElementById("sashName").value}`;
     if(document.getElementById("sashWidth").value.trim()) specDetails += `, W:${document.getElementById("sashWidth").value}`;
     if(document.getElementById("sashHeight").value.trim()) specDetails += `, H:${document.getElementById("sashHeight").value}`;
+    if(document.getElementById("sashLength").value.trim()) specDetails += `, L:${document.getElementById("sashLength").value}`;
     if(document.getElementById("sashDesc").value.trim()) specDetails += `, ${document.getElementById("sashDesc").value}`;
   }
   
@@ -883,6 +905,7 @@ function addProduct() {
     specDetails += `<br><b>Lock:</b> ${document.getElementById("lockType").value}`;
     if(document.getElementById("lockBrand").value.trim()) specDetails += `, Brand:${document.getElementById("lockBrand").value}`;
     if(document.getElementById("lockModel").value.trim()) specDetails += `, Model:${document.getElementById("lockModel").value}`;
+    if(document.getElementById("lockLength").value.trim()) specDetails += `, L:${document.getElementById("lockLength").value}`;
     if(document.getElementById("lockDesc").value.trim()) specDetails += `, ${document.getElementById("lockDesc").value}`;
   }
   
@@ -891,6 +914,7 @@ function addProduct() {
     if(document.getElementById("glassThickness").value.trim()) specDetails += `, ${document.getElementById("glassThickness").value}mm`;
     if(document.getElementById("glassWidth").value.trim()) specDetails += `, W:${document.getElementById("glassWidth").value}`;
     if(document.getElementById("glassHeight").value.trim()) specDetails += `, H:${document.getElementById("glassHeight").value}`;
+    if(document.getElementById("glassLength").value.trim()) specDetails += `, L:${document.getElementById("glassLength").value}`;
     if(document.getElementById("glassDesc").value.trim()) specDetails += `, ${document.getElementById("glassDesc").value}`;
   }
 
@@ -946,9 +970,9 @@ function addProduct() {
 
   // Clear form fields
   [
-    "productCategory", "itemType", "locationArea", "area", "quantity", "rate", "frameName", "frameWidth", "frameHeight", "frameDesc",
-    "sashName", "sashWidth", "sashHeight", "sashDesc", "lockType", "lockBrand", "lockModel", "lockDesc",
-    "glassType", "glassThickness", "glassWidth", "glassHeight", "glassDesc"
+    "productCategory", "itemType", "locationArea", "area", "quantity", "rate", "frameName", "frameWidth", "frameHeight", "frameLength", "frameDesc",
+    "sashName", "sashWidth", "sashHeight", "sashLength", "sashDesc", "lockType", "lockBrand", "lockModel", "lockLength", "lockDesc",
+    "glassType", "glassThickness", "glassWidth", "glassHeight", "glassLength", "glassDesc"
   ].forEach(id => {
     const element = document.getElementById(id);
     if (element) element.value = "";
