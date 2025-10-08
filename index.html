@@ -845,14 +845,6 @@
         </select>
       </div>
       <div class="grid-item">
-        <label><i class="fas fa-ruler-vertical"></i> Lock Height (mm)</label>
-        <input type="number" id="lockHeight" placeholder="e.g., 150" step="1">
-      </div>
-      <div class="grid-item">
-        <label><i class="fas fa-ruler-horizontal"></i> Lock Width (mm)</label>
-        <input type="number" id="lockWidth" placeholder="e.g., 80" step="1">
-      </div>
-      <div class="grid-item">
         <label>Description</label>
         <textarea id="lockDesc" placeholder="Additional lock details..."></textarea>
       </div>
@@ -885,24 +877,11 @@
         <input type="text" id="glassThickness" placeholder="e.g., 6mm">
       </div>
       <div class="grid-item">
-        <label>Width (mm)</label>
-        <input type="text" id="glassWidth" placeholder="Glass width">
-      </div>
-      <div class="grid-item">
-        <label>Height (mm)</label>
-        <input type="text" id="glassHeight" placeholder="Glass height">
-      </div>
-      <div class="grid-item">
-        <label>Length (mm)</label>
-        <input type="text" id="glassLength" placeholder="e.g., 120mm">
-      </div>
-      <div class="grid-item">
         <label>Description</label>
         <textarea id="glassDesc" placeholder="Additional glass details..."></textarea>
       </div>
     </div>
 
-    <!-- Custom Fields Section -->
     <!-- Custom Fields Section -->
     <div style="border-top: 2px solid #e5e7eb; padding-top: 20px; margin-top: 20px;">
       <h2><i class="fas fa-plus-circle"></i> Custom Fields</h2>
@@ -1178,25 +1157,19 @@
         if (document.getElementById("lockType").value.trim()) {
           const lockType = document.getElementById("lockType").value;
           specDetails += `<br><b>Lock:</b> ${lockType}`;
-          const lockHeight = document.getElementById("lockHeight").value.trim();
-          const lockWidth = document.getElementById("lockWidth").value.trim();
-          if (lockHeight && lockWidth) {
-            specDetails += ` (${lockHeight}mm × ${lockWidth}mm)`;
-          } else if (lockHeight) {
-            specDetails += ` (H:${lockHeight}mm)`;
-          } else if (lockWidth) {
-            specDetails += ` (W:${lockWidth}mm)`;
+          if (document.getElementById("lockDesc").value.trim()) {
+            specDetails += `, ${document.getElementById("lockDesc").value}`;
           }
-          if (document.getElementById("lockDesc").value.trim()) specDetails += `, ${document.getElementById("lockDesc").value}`;
         }
 
         if (document.getElementById("glassType").value.trim()) {
           specDetails += `<br><b>Glass:</b> ${document.getElementById("glassType").value}`;
-          if (document.getElementById("glassThickness").value.trim()) specDetails += `, ${document.getElementById("glassThickness").value}mm`;
-          if (document.getElementById("glassWidth").value.trim()) specDetails += `, W:${document.getElementById("glassWidth").value}`;
-          if (document.getElementById("glassHeight").value.trim()) specDetails += `, H:${document.getElementById("glassHeight").value}`;
-          if (document.getElementById("glassLength").value.trim()) specDetails += `, L:${document.getElementById("glassLength").value}`;
-          if (document.getElementById("glassDesc").value.trim()) specDetails += `, ${document.getElementById("glassDesc").value}`;
+          if (document.getElementById("glassThickness").value.trim()) {
+            specDetails += `, ${document.getElementById("glassThickness").value}`;
+          }
+          if (document.getElementById("glassDesc").value.trim()) {
+            specDetails += `, ${document.getElementById("glassDesc").value}`;
+          }
         }
 
         // Add custom fields data
@@ -1252,8 +1225,7 @@
         // Clear form fields
         [
           "productCategory", "itemType", "locationArea", "dimensionHeight", "dimensionWidth", "area", "rate", "frameDesc",
-          "sashDesc", "lockType", "lockHeight", "lockWidth", "lockDesc",
-          "glassType", "glassThickness", "glassWidth", "glassHeight", "glassLength", "glassDesc"
+          "sashDesc", "lockType", "lockDesc", "glassType", "glassThickness", "glassDesc"
         ].forEach(id => {
           const element = document.getElementById(id);
           if (element) element.value = "";
