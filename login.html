@@ -285,7 +285,7 @@
   <script>
     // Credentials
     const VALID_USERNAME = 'admin';
-    const VALID_PASSWORD = 'admin';
+    const VALID_PASSWORD = 'Securepass';
 
     function handleLogin(event) {
       event.preventDefault();
@@ -316,7 +316,7 @@
           
           // Redirect to quotation generator
           setTimeout(() => {
-            window.location.href = 'quotation.html';
+            window.location.href = 'index.html';
           }, 500);
         } else {
           // Show error
@@ -333,7 +333,7 @@
 
     // Check if already logged in
     if (sessionStorage.getItem('isAuthenticated') === 'true') {
-      window.location.href = 'quotation.html';
+      window.location.href = 'index.html';
     }
 
     // Add enter key support
