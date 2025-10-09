@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aryan Window World - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #144B8C 0%, #2563eb 50%, #1e40af 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      animation: slideIn 0.5s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #144B8C, #1e40af);
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      box-shadow: 0 10px 30px rgba(20, 75, 140, 0.3);
+    }
+
+    .company-name {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #144B8C, #1e40af);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 5px;
+    }
+
+    .tagline {
+      font-size: 14px;
+      color: #666;
+      font-weight: 500;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1f2937;
+      margin-bottom: 30px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-group label i {
+      color: #144B8C;
+      font-size: 16px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+      font-size: 16px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 14px 14px 45px;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #144B8C;
+      box-shadow: 0 0 0 3px rgba(20, 75, 140, 0.1);
+    }
+
+    .btn-login {
+      width: 100%;
+      background: linear-gradient(135deg, #144B8C, #1e40af);
+      color: white;
+      padding: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 10px;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(20, 75, 140, 0.3);
+    }
+
+    .btn-login:active {
+      transform: translateY(0);
+    }
+
+    .error-message {
+      background: #fee2e2;
+      border: 2px solid #ef4444;
+      color: #991b1b;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      animation: shake 0.5s ease;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    .footer-text {
+      text-align: center;
+      margin-top: 25px;
+      color: #6b7280;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 30px 25px;
+      }
+
+      .logo {
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
+      }
+
+      .company-name {
+        font-size: 24px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo-section">
+      <div class="logo">
+        <i class="fas fa-window-maximize"></i>
+      </div>
+      <div class="company-name">Aryan Window World</div>
+      <div class="tagline">Quotation Generator</div>
+    </div>
+
+    <h2>Welcome Back</h2>
+
+    <div id="errorMessage" class="error-message">
+      <i class="fas fa-exclamation-circle"></i> Invalid username or password
+    </div>
+
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="username">
+          <i class="fas fa-user"></i> Username
+        </label>
+        <div class="input-wrapper">
+          <i class="fas fa-user"></i>
+          <input type="text" id="username" placeholder="Enter username" required autocomplete="username">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">
+          <i class="fas fa-lock"></i> Password
+        </label>
+        <div class="input-wrapper">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="password" placeholder="Enter password" required autocomplete="current-password">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-login">
+        <i class="fas fa-sign-in-alt"></i>
+        <span>Login</span>
+      </button>
+    </form>
+
+    <div class="footer-text">
+      <i class="fas fa-shield-alt"></i> Secure Login
+    </div>
+  </div>
+
+  <script>
+    // Credentials
+    const VALID_USERNAME = 'admin';
+    const VALID_PASSWORD = 'SecurePass';
+
+    function handleLogin(event) {
+      event.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('errorMessage');
+      const loginButton = event.target.querySelector('.btn-login');
+      
+      // Hide error message
+      errorMessage.classList.remove('show');
+      
+      // Show loading state
+      const originalContent = loginButton.innerHTML;
+      loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Logging in...</span>';
+      loginButton.disabled = true;
+      
+      // Simulate authentication delay
+      setTimeout(() => {
+        if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+          // Store authentication status
+          sessionStorage.setItem('isAuthenticated', 'true');
+          sessionStorage.setItem('username', username);
+          
+          // Success feedback
+          loginButton.innerHTML = '<i class="fas fa-check-circle"></i> <span>Success!</span>';
+          loginButton.style.background = 'linear-gradient(135deg, #059669, #10b981)';
+          
+          // Redirect to quotation generator
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 500);
+        } else {
+          // Show error
+          errorMessage.classList.add('show');
+          loginButton.innerHTML = originalContent;
+          loginButton.disabled = false;
+          
+          // Clear password field
+          document.getElementById('password').value = '';
+          document.getElementById('password').focus();
+        }
+      }, 800);
+    }
+
+    // Check if already logged in
+    if (sessionStorage.getItem('isAuthenticated') === 'true') {
+      window.location.href = 'index.html';
+    }
+
+    // Add enter key support
+    document.getElementById('password').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+      }
+    });
+  </script>
+</body>
+</html>

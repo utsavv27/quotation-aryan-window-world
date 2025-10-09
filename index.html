@@ -25,6 +25,53 @@
       color: #333;
     }
 
+    .top-bar {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 12px 20px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 25px rgba(20, 75, 140, 0.15);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #374151;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .user-info i {
+      color: #144B8C;
+      font-size: 16px;
+    }
+
+    .btn-logout {
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-logout:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+    }
+
     .main-header {
       text-align: center;
       margin-bottom: 30px;
@@ -194,15 +241,8 @@
     }
 
     @keyframes pulse {
-
-      0%,
-      100% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.02);
-      }
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
     }
 
     .btn {
@@ -320,7 +360,6 @@
         opacity: 0;
         transform: translateY(-10px);
       }
-
       to {
         opacity: 1;
         transform: translateY(0);
@@ -515,202 +554,61 @@
     }
 
     @media (min-width: 769px) {
-
-      table th:nth-child(1),
-      table td:nth-child(1) {
-        width: 7%;
-      }
-
-      table th:nth-child(2),
-      table td:nth-child(2) {
-        width: 40%;
-        text-align: left;
-      }
-
-      table th:nth-child(3),
-      table td:nth-child(3) {
-        width: 12%;
-      }
-
-      table th:nth-child(4),
-      table td:nth-child(4) {
-        width: 10%;
-      }
-
-      table th:nth-child(5),
-      table td:nth-child(5) {
-        width: 6%;
-      }
-
-      table th:nth-child(6),
-      table td:nth-child(6) {
-        width: 14%;
-      }
-
-      table th:nth-child(7),
-      table td:nth-child(7) {
-        width: 14%;
-      }
+      table th:nth-child(1), table td:nth-child(1) { width: 7%; }
+      table th:nth-child(2), table td:nth-child(2) { width: 40%; text-align: left; }
+      table th:nth-child(3), table td:nth-child(3) { width: 12%; }
+      table th:nth-child(4), table td:nth-child(4) { width: 10%; }
+      table th:nth-child(5), table td:nth-child(5) { width: 6%; }
+      table th:nth-child(6), table td:nth-child(6) { width: 14%; }
+      table th:nth-child(7), table td:nth-child(7) { width: 14%; }
     }
 
     @media (max-width: 768px) {
-      body {
-        padding: 10px;
-      }
-
-      .main-header {
-        padding: 20px 15px;
-        margin-bottom: 20px;
-      }
-
-      .logo-container {
-        gap: 12px;
-      }
-
-      .logo {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-      }
-
-      .grid-container {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-
-      .customer-info-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-
-      .pdf-header .header-info {
-        flex-direction: column;
-        gap: 8px;
-        align-items: center;
-      }
-
-      .form-section {
-        padding: 15px;
-        margin-bottom: 15px;
-      }
-
-      .pdf-container {
-        padding: 12px;
-        margin: 10px auto;
-        border-radius: 12px;
-      }
-
-      .btn {
-        width: 100%;
-        margin: 5px 0;
-        justify-content: center;
-        padding: 12px 20px;
-      }
-
-      .checkbox-container {
-        padding: 12px;
-        gap: 10px;
-      }
-
-      .frame-sash-grid {
-        grid-template-columns: 1fr;
-      }
-
-      table {
-        font-size: 9px;
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-      }
-
-      table th,
-      table td {
-        padding: 6px 4px;
-        min-width: 60px;
-      }
-
-      table th:nth-child(1),
-      table td:nth-child(1) {
-        width: 5%;
-      }
-
-      table th:nth-child(2),
-      table td:nth-child(2) {
-        width: 45%;
-        text-align: left;
-      }
-
-      table th:nth-child(3),
-      table td:nth-child(3) {
-        width: 12%;
-      }
-
-      table th:nth-child(4),
-      table td:nth-child(4) {
-        width: 10%;
-      }
-
-      table th:nth-child(5),
-      table td:nth-child(5) {
-        width: 5%;
-      }
-
-      table th:nth-child(6),
-      table td:nth-child(6) {
-        width: 11%;
-      }
-
-      table th:nth-child(7),
-      table td:nth-child(7) {
-        width: 12%;
-      }
+      body { padding: 10px; }
+      .main-header { padding: 20px 15px; margin-bottom: 20px; }
+      .logo-container { gap: 12px; }
+      .logo { width: 50px; height: 50px; font-size: 20px; }
+      .grid-container { grid-template-columns: 1fr; gap: 12px; }
+      .customer-info-grid { grid-template-columns: 1fr; gap: 12px; }
+      .pdf-header .header-info { flex-direction: column; gap: 8px; align-items: center; }
+      .form-section { padding: 15px; margin-bottom: 15px; }
+      .pdf-container { padding: 12px; margin: 10px auto; border-radius: 12px; }
+      .btn { width: 100%; margin: 5px 0; justify-content: center; padding: 12px 20px; }
+      .checkbox-container { padding: 12px; gap: 10px; }
+      .frame-sash-grid { grid-template-columns: 1fr; }
+      table { font-size: 9px; display: block; overflow-x: auto; white-space: nowrap; }
+      table th, table td { padding: 6px 4px; min-width: 60px; }
+      table th:nth-child(1), table td:nth-child(1) { width: 5%; }
+      table th:nth-child(2), table td:nth-child(2) { width: 45%; text-align: left; }
+      table th:nth-child(3), table td:nth-child(3) { width: 12%; }
+      table th:nth-child(4), table td:nth-child(4) { width: 10%; }
+      table th:nth-child(5), table td:nth-child(5) { width: 5%; }
+      table th:nth-child(6), table td:nth-child(6) { width: 11%; }
+      table th:nth-child(7), table td:nth-child(7) { width: 12%; }
     }
 
     @media print {
-      body {
-        background: white;
-        padding: 0;
-      }
-
-      .form-section:not(#quotation) {
-        display: none;
-      }
-
-      .main-header {
-        display: none;
-      }
-
-      .pdf-container {
-        box-shadow: none;
-        border-radius: 0;
-        max-width: none;
-        width: 100%;
-        margin: 0;
-        padding: 15mm;
-      }
-
-      table {
-        font-size: 10px;
-        display: table;
-        white-space: normal;
-      }
-    }
-
-    @keyframes slideOut {
-      from {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      to {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
+      body { background: white; padding: 0; }
+      .form-section:not(#quotation) { display: none; }
+      .main-header { display: none; }
+      .top-bar { display: none; }
+      .pdf-container { box-shadow: none; border-radius: 0; max-width: none; width: 100%; margin: 0; padding: 15mm; }
+      table { font-size: 10px; display: table; white-space: normal; }
     }
   </style>
 </head>
 
 <body>
+  <div class="top-bar">
+    <div class="user-info">
+      <i class="fas fa-user-circle"></i>
+      <span>Welcome, <strong id="displayUsername"></strong></span>
+    </div>
+    <button class="btn-logout" onclick="handleLogout()">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </button>
+  </div>
 
   <div class="main-header fade-in">
     <div class="logo-container">
@@ -793,8 +691,7 @@
         <input type="number" id="dimensionWidth" placeholder="0" step="0.01" oninput="calculateArea()">
       </div>
       <div class="grid-item">
-        <label><i class="fas fa-expand"></i> Size (sq.ft.) <span
-            style="color: #10b981; font-weight: 700;">●</span></label>
+        <label><i class="fas fa-expand"></i> Size (sq.ft.) <span style="color: #10b981; font-weight: 700;">●</span></label>
         <input type="number" id="area" placeholder="0.00" step="0.01" readonly
           style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-color: #86efac; font-weight: 600; color: #166534;">
       </div>
@@ -882,7 +779,6 @@
       </div>
     </div>
 
-    <!-- Custom Fields Section -->
     <div style="border-top: 2px solid #e5e7eb; padding-top: 20px; margin-top: 20px;">
       <h2><i class="fas fa-plus-circle"></i> Custom Fields</h2>
       <div id="customFieldsContainer"></div>
@@ -908,16 +804,13 @@
     <div id="quotation" class="pdf-container">
       <div class="pdf-header">
         <div style="text-align: center; padding: 20px; border-bottom: 2px solid #104A8C; margin-bottom: 20px;">
-          <h1
-            style="font-size: 28px; margin: 0; font-weight: bold; letter-spacing: 1px; color: #104A8C; font-family: Arial, sans-serif;">
+          <h1 style="font-size: 28px; margin: 0; font-weight: bold; letter-spacing: 1px; color: #104A8C; font-family: Arial, sans-serif;">
             Aryan Window World
           </h1>
-          <h3
-            style="font-size: 18px; margin: 5px 0 0 0; font-weight: normal; color: #333; font-family: Arial, sans-serif;">
+          <h3 style="font-size: 18px; margin: 5px 0 0 0; font-weight: normal; color: #333; font-family: Arial, sans-serif;">
             Professional Quotation
           </h3>
-          <h3
-            style="font-size: 12px; margin: 5px 0 0 0; font-weight: normal; color: #333; font-family: Arial, sans-serif;">
+          <h3 style="font-size: 12px; margin: 5px 0 0 0; font-weight: normal; color: #333; font-family: Arial, sans-serif;">
             <b>GST Number: 24AQQPC8922K1ZI</b>
           </h3>
         </div>
@@ -984,21 +877,18 @@
         </table>
       </div>
 
-      <!-- Terms and Conditions Section -->
       <div class="section" style="margin-top: 30px;">
         <h2>Terms & Conditions</h2>
         <ul class="terms-list">
           <li>The above quotation is valid for 30 days from the date of issue.</li>
           <li>Installation charges are included in the quoted price unless otherwise specified.</li>
-          <li>Measurement will be taken after confirmation of order and final billing will be done based on actual
-            measurement.</li>
+          <li>Measurement will be taken after confirmation of order and final billing will be done based on actual measurement.</li>
           <li>Delivery time: 15-20 working days from the date of measurement and advance payment.</li>
           <li>Transportation and unloading charges are included within city limits.</li>
           <li>Site should be ready with necessary civil work completed before installation.</li>
           <li>Client to provide electricity and water facility at the installation site.</li>
           <li>Any additional accessories or modifications requested during installation will be charged separately.</li>
-          <li>In case of cancellation, advance payment will be refunded after deduction of material and processing
-            charges.</li>
+          <li>In case of cancellation, advance payment will be refunded after deduction of material and processing charges.</li>
           <li>Disputes, if any, are subject to local jurisdiction only.</li>
         </ul>
       </div>
@@ -1010,13 +900,32 @@
     </div>
 
     <script>
+      // Authentication check
+      function checkAuthentication() {
+        if (sessionStorage.getItem('isAuthenticated') !== 'true') {
+          window.location.href = 'login.html';
+        } else {
+          const username = sessionStorage.getItem('username') || 'User';
+          document.getElementById('displayUsername').textContent = username;
+        }
+      }
+
+      function handleLogout() {
+        if (confirm('Are you sure you want to logout?')) {
+          sessionStorage.removeItem('isAuthenticated');
+          sessionStorage.removeItem('username');
+          window.location.href = 'login.html';
+        }
+      }
+
+      checkAuthentication();
+
       let productCount = 0;
       let subtotal = 0;
       let totalItems = 0;
       let totalArea = 0;
       let quoteCounter = 1;
       let customFieldCount = 0;
-      let customFieldsData = [];
 
       const today = new Date();
       const day = String(today.getDate()).padStart(2, '0');
@@ -1100,9 +1009,7 @@
         const field = document.getElementById(fieldId);
         if (field) {
           field.style.animation = 'slideOut 0.3s ease';
-          setTimeout(() => {
-            field.remove();
-          }, 300);
+          setTimeout(() => field.remove(), 300);
         }
       }
 
@@ -1172,7 +1079,6 @@
           }
         }
 
-        // Add custom fields data
         const customFields = getCustomFieldsData();
         customFields.forEach(field => {
           specDetails += `<br><b>${field.name}:</b>`;
@@ -1222,9 +1128,7 @@
         }
         document.getElementById("outQuotationDate").innerText = document.getElementById("quotationDate").value;
 
-        // Clear form fields
-        [
-          "productCategory", "itemType", "locationArea", "dimensionHeight", "dimensionWidth", "area", "rate", "frameDesc",
+        ["productCategory", "itemType", "locationArea", "dimensionHeight", "dimensionWidth", "area", "rate", "frameDesc",
           "sashDesc", "lockType", "lockDesc", "glassType", "glassThickness", "glassDesc"
         ].forEach(id => {
           const element = document.getElementById(id);
@@ -1233,8 +1137,6 @@
 
         document.getElementById('quantity').value = '1';
         document.getElementById('livePrice').value = '₹0.00';
-
-        // Clear custom fields
         document.getElementById('customFieldsContainer').innerHTML = '';
         customFieldCount = 0;
 
