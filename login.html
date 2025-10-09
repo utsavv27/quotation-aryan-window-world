@@ -225,14 +225,26 @@
 <body>
   <div class="login-container">
     <div class="logo-section">
-      <div class="logo">
-        <i class="fas fa-window-maximize"></i>
-      </div>
-      <div class="company-name">Aryan Window World</div>
-      <div class="tagline">Quotation Generator</div>
+     <div>
+          <img src="aryan.png" alt="Aryan Window World" style="max-width: 160px; height: auto;">
+        </div>
+      <!-- <div class="company-name">Aryan Window World</div> -->
+      <div class="tagline"><b>Quotation Generator</b></div>
     </div>
 
-    <h2>Welcome Back</h2>
+      <center> 
+      <h2 style="font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #2c3e50;
+      text-align: center;
+      letter-spacing: 0.5px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #ccc;
+      display: inline-block;
+      padding-bottom: 6px;">Login</h2>
+      </center>
+
 
     <div id="errorMessage" class="error-message">
       <i class="fas fa-exclamation-circle"></i> Invalid username or password
@@ -273,7 +285,7 @@
   <script>
     // Credentials
     const VALID_USERNAME = 'admin';
-    const VALID_PASSWORD = 'SecurePass';
+    const VALID_PASSWORD = 'admin';
 
     function handleLogin(event) {
       event.preventDefault();
@@ -304,7 +316,7 @@
           
           // Redirect to quotation generator
           setTimeout(() => {
-            window.location.href = 'index.html';
+            window.location.href = 'quotation.html';
           }, 500);
         } else {
           // Show error
@@ -321,7 +333,7 @@
 
     // Check if already logged in
     if (sessionStorage.getItem('isAuthenticated') === 'true') {
-      window.location.href = 'index.html';
+      window.location.href = 'quotation.html';
     }
 
     // Add enter key support
