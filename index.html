@@ -694,7 +694,7 @@
       </div>
       <div class="grid-item">
         <label><i class="fas fa-expand"></i> Size (sq.ft.) <span style="color: #10b981; font-weight: 700;">●</span></label>
-        <input type="number" id="area" placeholder="0.00" step="0.01" readonly
+        <input type="number" id="area" placeholder="0.00" step="0.01" oninput="updatePricePreview()"
           style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-color: #86efac; font-weight: 600; color: #166534;">
       </div>
       <div class="grid-item">
@@ -939,9 +939,13 @@
       function calculateArea() {
         const height = parseFloat(document.getElementById('dimensionHeight').value) || 0;
         const width = parseFloat(document.getElementById('dimensionWidth').value) || 0;
-        const areaInches = height * width;
-        const areaSqFt = areaInches / 144;
-        document.getElementById('area').value = areaSqFt > 0 ? areaSqFt.toFixed(2) : '';
+        
+        if (height > 0 && width > 0) {
+          const areaInches = height * width;
+          const areaSqFt = areaInches / 144;
+          document.getElementById('area').value = areaSqFt.toFixed(2);
+        }
+        
         updatePricePreview();
       }
 
