@@ -316,6 +316,10 @@
       margin-bottom: 8px;
       color: #1f2937;
     }
+      .pdf-hidden-temp {
+        display: none !important;
+  }
+
     .pdf-header .header-info {
       display: flex;
       justify-content: space-between;
@@ -1199,72 +1203,86 @@
       }
     }
     // ===== ENHANCED: generatePDF with forced hide =====
-    async function generatePDF() {
-      if (products.length === 0) {
-        alert("Please add at least one product before generating PDF");
-        return;
-      }
-      const btn = event.target;
-      const originalText = btn.innerHTML;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
-      btn.disabled = true;
-      // Force-hide action buttons during PDF capture
-      const hideElements = document.querySelectorAll('.hide-for-pdf');
-      const originalStyles = [];
-      hideElements.forEach(el => {
-        originalStyles.push(el.style.display);
-        el.style.display = 'none';
-      });
-      try {
-        const { jsPDF } = window.jspdf;
-        const element = document.getElementById("quotation");
-        const canvas = await html2canvas(element, {
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: '#ffffff'
-        });
-        // Restore action buttons
-        hideElements.forEach((el, i) => {
-          el.style.display = originalStyles[i] || '';
-        });
-        const imgData = canvas.toDataURL("image/jpeg", 0.8);
-        const pdf = new jsPDF("p", "mm", "a4");
-        const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = 210;
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        let heightLeft = pdfHeight;
-        let position = 0;
-        pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, pdfHeight, 'FAST');
-        heightLeft -= 297;
-        while (heightLeft > 0) {
-          position = heightLeft - pdfHeight;
-          pdf.addPage();
-          pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, pdfHeight, 'FAST');
-          heightLeft -= 297;
-        }
-        const customerName = document.getElementById("custName").value || "Customer";
-        const quotationNo = document.getElementById("outQuotationNo").innerText;
-        const filename = `${customerName.replace(/\s+/g, '_')}_Quotation_${quotationNo}.pdf`;
-        pdf.save(filename);
-        btn.innerHTML = '<i class="fas fa-check"></i> PDF Downloaded!';
-        btn.style.background = '#10b981';
-      } catch (error) {
-        // Restore on error too
-        hideElements.forEach((el, i) => {
-          el.style.display = originalStyles[i] || '';
-        });
-        console.error('Error generating PDF:', error);
-        alert('Error generating PDF. Please try again.');
-        btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error!';
-        btn.style.background = '#ef4444';
-      }
-      setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.style.background = '';
-        btn.disabled = false;
-      }, 3000);
+
+  async function generatePDF() {
+    if (products.length === 0) {
+      alert("Please add at least one product before generating PDF");
+      return;
     }
+
+    const btn = event.target;
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+    btn.disabled = true;
+
+    // ✅ Force-hide "Actions" column cleanly before rendering
+    const hideElements = document.querySelectorAll('.hide-for-pdf');
+    hideElements.forEach(el => el.classList.add('pdf-hidden-temp'));
+
+    // ✅ Force reflow so table widths recalculate before capture
+    const quotation = document.getElementById("quotation");
+    quotation.offsetHeight; // trigger reflow
+
+    try {
+      const { jsPDF } = window.jspdf;
+      const element = document.getElementById("quotation");
+
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: document.documentElement.offsetWidth
+      });
+
+      // ✅ Restore hidden elements
+      hideElements.forEach(el => el.classList.remove('pdf-hidden-temp'));
+
+      const imgData = canvas.toDataURL("image/jpeg", 0.9);
+      const pdf = new jsPDF("p", "mm", "a4");
+
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = 210;
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      let heightLeft = pdfHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, pdfHeight);
+      heightLeft -= 297;
+
+      while (heightLeft > 0) {
+        position = heightLeft - pdfHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, pdfHeight);
+        heightLeft -= 297;
+      }
+
+      const customerName = document.getElementById("custName").value || "Customer";
+      const quotationNo = document.getElementById("outQuotationNo").innerText;
+      const filename = `${customerName.replace(/\s+/g, '_')}_Quotation_${quotationNo}.pdf`;
+
+      pdf.save(filename);
+
+      btn.innerHTML = '<i class="fas fa-check"></i> PDF Downloaded!';
+      btn.style.background = '#10b981';
+    } catch (error) {
+      hideElements.forEach(el => el.classList.remove('pdf-hidden-temp'));
+      console.error('Error generating PDF:', error);
+      alert('Error generating PDF. Please try again.');
+      btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error!';
+      btn.style.background = '#ef4444';
+    }
+
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 3000);
+  }
+
     // Event listeners
     document.getElementById('locationArea').addEventListener('change', function () {
       if (this.value === 'Other') {
