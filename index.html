@@ -793,14 +793,15 @@
       <ul class="terms-list">
         <li>The above quotation is valid for 30 days from the date of issue.</li>
         <li>Installation charges are included in the quoted price unless otherwise specified.</li>
-        <li>Measurement will be taken after confirmation of order and final billing will be done based on actual measurement.</li>
-        <li>Delivery time: 15-20 working days from the date of measurement and advance payment.</li>
+        <li>The Advance Payment of 50% should paid after the conformation of order.</li>
+        <li>Measurement will be taken after confirmation (if needed) of order and final billing will be done based on actual measurement.</li>
+        <li>Work Completion Estimate time: 40-45 working days from the date of measurement and advance payment.</li>
         <li>Transportation and unloading charges are included within city limits.</li>
         <li>Site should be ready with necessary civil work completed before installation.</li>
         <li>Client to provide electricity and water facility at the installation site.</li>
+        <li>Any additional accessories or modifications requested during installation will be charged separately</li>
         <li>Any additional accessories or modifications requested during installation will be charged separately.</li>
-        <li>In case of cancellation, advance payment will be refunded after deduction of material and processing charges.</li>
-        <li>Disputes, if any, are subject to local jurisdiction only.</li>
+        <li>Disputes, if any, are subject to Rajkot jurisdiction only.</li>
       </ul>
     </div>
     <footer>
@@ -836,15 +837,15 @@
     }
     // ===== NEW: Base64 Product Images =====
    // Base64 SVG icons for product categories
-const PRODUCT_IMAGES = {
-  "Windows": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDRCOEMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PHBhdGggZD0iTTEyIDN2MThNMyAxMmgxOE03IDEyaDEwTTcgOGgxME03IDE2aDEwIi8+PC9zdmc+",
-  "Doors": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDRCOEMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PHBhdGggZD0iTTE1IDN2MThhMiAyIDAgMCAxLTIgMkg3YTIgMiAwIDAgMS0yLTJWN2EyIDIgMCAwIDEgMi0yaDZtMCAwaDQiLz48Y2lyY2xlIGN4PSIxNSIgY3k9IjkiIHI9IjIiLz48L3N2Zz4=",
-  "Grills": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDRCOEMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PHBhdGggZD0iTTcgM3YxOE0xMiAzdjE4TTE3IDN2MThNNyA5aDEwTTcgMTVoMTAiLz48L3N2Zz4=",
-  "Aluminum Section": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDRCOEMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PHBhdGggZD0iTTcgM3YxOE0xNyAzdjE4Ii8+PHBhdGggZD0iTTEyIDNoMTB2MThoLTlNNyAzaDl2MThoLTgiLz48L3N2Zz4=",
-  "Nets": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDRCOEMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PHBhdGggZD0iTTEyIDN2MThtLTUgMGgwejAiLz48cGF0aCBkPSJNMyA4aDE4bTAgN2gxOE03IDNoMTAiLz48L3N2Zz4=",
-  "Glass Work": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDRCOEMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PHBhdGggZD0iTTcgMzE4IDN2MThhMiAyIDAgMCAxLTIgMkg5YTIgMiAwIDAgMS0yLTJWM20wIDEySDVtMTQgMGgtMiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEiLz48L3N2Zz4=",
-  "Other": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDRCOEMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PHBhdGggZD0iTTkgOW02IDB2MTJhMiAyIDAgMCAxLTIgMkg5YTIgMiAwIDAgMS0yLTJWOW0wIDgiLz48L3N2Zz4="
-};
+    const PRODUCT_IMAGES = {
+      "Windows": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDRCOEMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PHBhdGggZD0iTTEyIDN2MThNMyAxMmgxOE03IDEyaDEwTTcgOGgxME03IDE2aDEwIi8+PC9zdmc+",
+      "Doors": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDRCOEMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PHBhdGggZD0iTTE1IDN2MThhMiAyIDAgMCAxLTIgMkg3YTIgMiAwIDAgMS0yLTJWN2EyIDIgMCAwIDEgMi0yaDZtMCAwaDQiLz48Y2lyY2xlIGN4PSIxNSIgY3k9IjkiIHI9IjIiLz48L3N2Zz4=",
+      "Grills": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDRCOEMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PHBhdGggZD0iTTcgM3YxOE0xMiAzdjE4TTE3IDN2MThNNyA5aDEwTTcgMTVoMTAiLz48L3N2Zz4=",
+      "Aluminum Section": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDRCOEMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PHBhdGggZD0iTTcgM3YxOE0xNyAzdjE4Ii8+PHBhdGggZD0iTTEyIDNoMTB2MThoLTlNNyAzaDl2MThoLTgiLz48L3N2Zz4=",
+      "Nets": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDRCOEMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PHBhdGggZD0iTTEyIDN2MThtLTUgMGgwejAiLz48cGF0aCBkPSJNMyA4aDE4bTAgN2gxOE03IDNoMTAiLz48L3N2Zz4=",
+      "Glass Work": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDRCOEMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PHBhdGggZD0iTTcgMzE4IDN2MThhMiAyIDAgMCAxLTIgMkg5YTIgMiAwIDAgMS0yLTJWM20wIDEySDVtMTQgMGgtMiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEiLz48L3N2Zz4=",
+      "Other": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDRCOEMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PHBhdGggZD0iTTkgOW02IDB2MTJhMiAyIDAgMCAxLTIgMkg5YTIgMiAwIDAgMS0yLTJWOW0wIDgiLz48L3N2Zz4="
+    };
     let products = [];
     let subtotal = 0;
     let totalItems = 0;
