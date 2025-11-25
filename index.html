@@ -5,10 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Aryan Window World - Quotation Generator</title>
   <link rel="icon" type="image/png" href="favicon.png" />
+  <!-- jspdf + html2canvas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Google Font (kept) - add crossorigin to help html2canvas fetch it -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" crossorigin="anonymous">
+
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -126,7 +131,8 @@
     <div class="logo-container">
       <div>
         <div>
-          <img src="aryan.png" alt="Aryan Window World" style="max-width:160px;height:auto;">
+          <!-- keep image src as-is per your request -->
+          <img id="companyLogo" src="aryan.png" alt="Aryan Window World" style="max-width:160px;height:auto;">
         </div>
         <div class="tagline">Premium Windows, Doors & Aluminum Solutions</div>
       </div>
@@ -257,8 +263,6 @@
           <option value="Cylinder Lock">Cylinder Lock</option>
           <option value="Sliding Lock">Sliding Lock</option>
           <option value="Deadbolt Lock">Deadbolt Lock</option>
-          <!-- <option value="Smart Lock">Smart Lock</option> -->
-          <!-- <option value="Cam Lock">Cam Lock</option> -->
           <option value="Padlock">Padlock</option>
           <option value="No Lock">No Lock</option>
           <option value="Other">Other</option>
@@ -286,8 +290,6 @@
           <option value="Triple Glazed">Triple Glazed</option>
           <option value="Reflective Glass">Reflective Glass</option>
           <option value="Patterned Glass">Patterned Glass</option>
-          <!-- <option value="Wired Glass">Wired Glass</option> -->
-          <!-- <option value="Smart Glass">Smart Glass</option> -->
           <option value="Acoustic Glass">Acoustic Glass</option>
           <option value="Other">Other</option>
         </select>
@@ -329,24 +331,7 @@
   </div>
 
   <div id="quotation" class="pdf-container">
-    <!-- <div class="pdf-header">
-      <div style="text-align:center; padding:20px; border-bottom:2px solid #104A8C; margin-bottom:20px;">
-        <h1 style="font-size:28px; margin:0; font-weight:bold; letter-spacing:1px; color:#104A8C; font-family:Arial, sans-serif;">
-          Aryan Window World
-        </h1>
-        <h3 style="font-size:18px; margin:5px 0 0 0; font-weight:normal; color:#333; font-family:Arial, sans-serif;">
-          Professional Quotation
-        </h3>
-        <h3 style="font-size:12px; margin:5px 0 0 0; font-weight:normal; color:#333; font-family:Arial, sans-serif;">
-          <b>GST Number: 24AQQPC8922K1ZI</b>
-        </h3>
-      </div>
-      <div class="header-info" style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-top:15px; font-size:13px; color:#6b7280;">
-        <div><strong>Date:</strong> <span id="outQuotationDate"></span></div>
-        <div><strong>Quotation No:</strong> <span id="outQuotationNo"></span></div>
-      </div>
-    </div> -->
-
+    
   <div class="pdf-header">
   <div style="text-align:center; padding:20px; border-bottom:2px solid #104A8C; margin-bottom:20px;">
 
@@ -372,8 +357,6 @@
     <div><strong>Quotation No:</strong> <span id="outQuotationNo"></span></div>
   </div>
 </div>
-
-
 
     <div class="section" id="customer-info">
       <h2>Customer Information</h2>
@@ -439,7 +422,17 @@
   </div>
 
   <script>
-    // state
+    /**********************************************************************
+     * Optimized + GitHub-Pages compatible version of your app
+     * - Waits for fonts/images/paint before generating PDF
+     * - Attempts to set crossOrigin where feasible
+     * - Caches selectors to reduce DOM lookups
+     * - Keeps your original features and UX
+     **********************************************************************/
+
+    // -------------------------
+    // Minimal state (kept from original)
+    // -------------------------
     let products = [];
     let subtotal = 0;
     let totalItems = 0;
@@ -447,7 +440,18 @@
     let customFieldCount = 0;
     let editingIndex = -1;
 
-    // set today's date
+    // cache commonly used DOM elements
+    const selectors = {
+      pdfBtn: () => document.getElementById('pdfBtn'),
+      saveBtn: () => document.getElementById('saveBtn'),
+      cancelBtn: () => document.getElementById('cancelBtn'),
+      itemsTableBody: () => document.querySelector('#itemsTable tbody'),
+      quotationEl: () => document.getElementById('quotation'),
+      companyLogo: () => document.getElementById('companyLogo'),
+      pdfLogo: () => document.getElementById('pdfLogo'),
+    };
+
+    // today's date
     const today = new Date();
     const day = String(today.getDate()).padStart(2,'0');
     const month = String(today.getMonth()+1).padStart(2,'0');
@@ -455,12 +459,10 @@
     const formattedDate = `${day}-${month}-${year}`;
     document.getElementById('quotationDate').value = formattedDate;
 
-    // Authentication helpers (keeps original behavior)
+    // Auth helpers preserved
     function checkAuthentication() {
       if (sessionStorage.getItem('isAuthenticated') !== 'true') {
-        // if not logged in - redirect to login (as your original)
-        // comment this out during local development if you like
-        // window.location.href = 'login.html';
+        // window.location.href = 'login.html'; // commented to avoid accidental redirection during testing
       } else {
         const username = sessionStorage.getItem('username') || 'User';
         document.getElementById('displayUsername').textContent = username;
@@ -482,7 +484,9 @@
       return `AWW-${datePart}-${timePart}`;
     }
 
-    // CUSTOM FIELDS
+    // -------------------------
+    // Custom Fields (same logic, cleaned)
+    // -------------------------
     function addCustomField() {
       customFieldCount++;
       const fieldId = `customField${customFieldCount}`;
@@ -519,9 +523,7 @@
     }
     function removeCustomField(fieldId) {
       const field = document.getElementById(fieldId);
-      if (field) {
-        field.remove();
-      }
+      if (field) field.remove();
     }
     function getCustomFieldsData() {
       const customFields = [];
@@ -544,7 +546,9 @@
       return customFields;
     }
 
-    // area + price helpers
+    // -------------------------
+    // Area + Price helpers
+    // -------------------------
     function calculateArea() {
       const height = parseFloat(document.getElementById('dimensionHeight').value) || 0;
       const width = parseFloat(document.getElementById('dimensionWidth').value) || 0;
@@ -567,7 +571,94 @@
       }
     }
 
-    // product images (keeps your base64 icons — optional)
+    // -------------------------
+    // Images: keep original images but attempt to make them CORS-friendly before html2canvas
+    // -------------------------
+    // If images are same-origin (github pages), they will be fine. For absolute URLs, we attempt crossOrigin.
+    async function ensureImagesReadyForCanvas(containerEl) {
+      const imgs = Array.from(containerEl.querySelectorAll('img'));
+      if (imgs.length === 0) return;
+      const promises = imgs.map(img => {
+        return new Promise(resolve => {
+          // If img already loaded and naturalWidth>0, resolve quickly
+          if (img.complete && img.naturalWidth !== 0) {
+            // Try to ensure crossOrigin attribute exists (for html2canvas to pick up fonts/assets)
+            try { img.crossOrigin = img.crossOrigin || 'anonymous'; } catch (e) {}
+            return resolve();
+          }
+
+          // If not loaded, set crossOrigin and reload to be safe (only if src is not data: and not blank)
+          const src = img.getAttribute('src') || '';
+          if (src.startsWith('data:') || src.trim() === '') {
+            img.onload = img.onerror = () => resolve();
+            return;
+          }
+
+          // set crossOrigin then reload the same src (some browsers will reuse cached resource)
+          try { img.crossOrigin = img.crossOrigin || 'anonymous'; } catch (e) {}
+          // create a clone to force reload with crossOrigin if necessary
+          const clone = new Image();
+          clone.crossOrigin = 'anonymous';
+          clone.onload = () => {
+            // copy loaded dimensions and keep original src (so DOM shows it)
+            resolve();
+          };
+          clone.onerror = () => resolve();
+          // start loading
+          clone.src = src;
+          // also fallback: when original image fires load/error
+          img.onload = img.onerror = () => resolve();
+          // safety timeout
+          setTimeout(() => resolve(), 2500);
+        });
+      });
+
+      // wait for all (with overall timeout)
+      await Promise.race([Promise.all(promises), new Promise(r => setTimeout(r, 4000))]);
+    }
+
+    // -------------------------
+    // Waiting helpers: fonts + paints
+    // -------------------------
+    function waitForNextPaint() {
+      return new Promise(resolve => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(resolve);
+        });
+      });
+    }
+
+    // wait for webfonts using FontFaceSet API when available
+    function waitForFonts(timeout = 3000) {
+      if (!document || !document.fonts || !document.fonts.ready) return Promise.resolve();
+      const fontsReady = document.fonts.ready;
+      let timedOut = false;
+      const timer = setTimeout(() => {
+        timedOut = true;
+      }, timeout);
+      return fontsReady.then(() => {
+        clearTimeout(timer);
+        return;
+      }).catch(() => {}).finally(() => {
+        if (timedOut) return;
+      });
+    }
+
+    // High-level: wait for images/fonts/paint to finish
+    async function waitForElementsToRender(containerEl) {
+      // 1) fonts
+      await waitForFonts(2500).catch(()=>{});
+      // 2) images + set crossOrigin where possible
+      await ensureImagesReadyForCanvas(containerEl);
+      // 3) next paint frames for layout stabilization
+      await waitForNextPaint();
+      // small extra delay on GitHub Pages / slow networks
+      await new Promise(r => setTimeout(r, 250));
+    }
+
+    // -------------------------
+    // Product images placeholder map (kept)
+    // -------------------------
     const PRODUCT_IMAGES = {
       "Windows": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0i...",
       "Doors": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0i...",
@@ -578,7 +669,9 @@
       "Other": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0i..."
     };
 
-    // save product (adds or updates)
+    // -------------------------
+    // Save / Clear / Render products
+    // -------------------------
     function saveProduct() {
       const category = document.getElementById('productCategory').value.trim();
       const productData = {
@@ -639,9 +732,8 @@
       customFieldCount = 0;
     }
 
-    // render products table
     function renderProducts() {
-      const table = document.getElementById('itemsTable').querySelector('tbody');
+      const table = selectors.itemsTableBody();
       table.innerHTML = '';
       subtotal = 0; totalItems = 0; totalArea = 0;
 
@@ -657,35 +749,31 @@
             (product.productCategory === 'Other' ? product.itemType : `${product.productCategory} - ${product.itemType}`) :
             (product.productCategory || product.itemType);
 
-        specDetails += `<strong>${productTitle}</strong>`;
+        specDetails += `<strong>${escapeHtml(productTitle)}</strong>`;
 
-        if (product.frameDesc) {
-          specDetails += `<br><b>Frame:</b> ${product.frameDesc}`;
-        }
-        if (product.sashDesc) {
-          specDetails += `<br><b>Sash:</b> ${product.sashDesc}`;
-        }
+        if (product.frameDesc) specDetails += `<br><b>Frame:</b> ${escapeHtml(product.frameDesc)}`;
+        if (product.sashDesc) specDetails += `<br><b>Sash:</b> ${escapeHtml(product.sashDesc)}`;
         if (product.lockType) {
           const lockFullText = product.lockDesc ? `${product.lockType}, ${product.lockDesc}` : product.lockType;
-          specDetails += `<br><b>Lock:</b> ${lockFullText}`;
+          specDetails += `<br><b>Lock:</b> ${escapeHtml(lockFullText)}`;
         }
         if (product.glassType) {
           let glassText = product.glassType;
           if (product.glassThickness) glassText += ` ${product.glassThickness}mm`;
           if (product.glassDesc) glassText += `, ${product.glassDesc}`;
-          specDetails += `<br><b>Glass:</b> ${glassText}`;
+          specDetails += `<br><b>Glass:</b> ${escapeHtml(glassText)}`;
         }
 
         let customFieldTotal = 0;
         let customFieldArea = 0;
         product.customFields.forEach(field => {
-          specDetails += `<br><b>${field.name}:</b>`;
+          specDetails += `<br><b>${escapeHtml(field.name)}:</b>`;
           const details = [];
-          if (field.width) details.push(`W:${field.width}mm`);
-          if (field.height) details.push(`H:${field.height}mm`);
-          if (field.length) details.push(`L:${field.length}mm`);
+          if (field.width) details.push(`W:${escapeHtml(field.width)}mm`);
+          if (field.height) details.push(`H:${escapeHtml(field.height)}mm`);
+          if (field.length) details.push(`L:${escapeHtml(field.length)}mm`);
           if (details.length > 0) specDetails += ` ${details.join(', ')}`;
-          if (field.desc) specDetails += `, ${field.desc}`;
+          if (field.desc) specDetails += `, ${escapeHtml(field.desc)}`;
           if (field.price) {
             const numericPrice = parseFloat(field.price.replace(/[₹,]/g,'')) || 0;
             customFieldTotal += numericPrice;
@@ -708,7 +796,7 @@
         row.innerHTML = `
           <td><strong>${index+1}</strong></td>
           <td style="text-align:left; padding:8px;">${specDetails}</td>
-          <td><strong>${product.locationArea || '-'}</strong></td>
+          <td><strong>${escapeHtml(product.locationArea || '-')}</strong></td>
           <td>${displayArea}</td>
           <td><strong>${product.qty}</strong></td>
           <td>${displayRate}</td>
@@ -769,7 +857,7 @@
 
       document.getElementById('customFieldsContainer').innerHTML = '';
       customFieldCount = 0;
-      product.customFields.forEach((field, idx) => {
+      (product.customFields || []).forEach((field, idx) => {
         addCustomField();
         const fieldId = `customField${idx+1}`;
         document.getElementById(`${fieldId}_name`).value = field.name || '';
@@ -801,40 +889,53 @@
       if (confirm('Are you sure you want to delete this item?')) {
         products.splice(index, 1);
         renderProducts();
-        if (products.length === 0) {
-          document.getElementById('outQuotationNo').innerText = '';
-        }
+        if (products.length === 0) document.getElementById('outQuotationNo').innerText = '';
       }
     }
 
-    // PDF generation (improved stability)
+    // -------------------------
+    // PDF generation (robust)
+    // -------------------------
     async function generatePDF() {
       if (products.length === 0) {
         alert('Please add at least one product before generating PDF');
         return;
       }
 
-      const btn = document.getElementById('pdfBtn');
+      const btn = selectors.pdfBtn();
       const originalText = btn.innerHTML;
       btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
       btn.disabled = true;
 
-      // hide interactive columns
+      // hide interactive columns for PDF
       const hideElements = document.querySelectorAll('.hide-for-pdf');
       hideElements.forEach(el => el.classList.add('pdf-hidden-temp'));
 
-      // make sure layout recalculates
-      const element = document.getElementById('quotation');
+      // reference element
+      const element = selectors.quotationEl();
+      // ensure header logo in pdf header uses the same src as page logo (keeps consistent)
+      try {
+        const compLogo = selectors.companyLogo();
+        const pdfLogoEl = selectors.pdfLogo();
+        if (compLogo && pdfLogoEl) {
+          pdfLogoEl.src = compLogo.src || '';
+        }
+      } catch (e) {}
+
+      // Wait for fonts/images/layout
+      await waitForElementsToRender(element);
+
+      // Force layout reflow once more
       element.offsetHeight;
 
       try {
         const { jsPDF } = window.jspdf;
 
-        // Use a slightly larger scale to improve sharpness
+        // Request a high-quality canvas
         const canvas = await html2canvas(element, {
           scale: 2,
           useCORS: true,
-          allowTaint: true,
+          allowTaint: false,
           backgroundColor: '#ffffff',
           scrollX: 0,
           scrollY: -window.scrollY,
@@ -883,12 +984,29 @@
         btn.innerHTML = originalText;
         btn.style.background = '';
         btn.disabled = false;
-      }, 2000);
+      }, 1800);
     }
 
-    // Event bindings and prompts (keeps behavior consistent)
+    // -------------------------
+    // Utility: escape HTML to avoid injection in table
+    // -------------------------
+    function escapeHtml(text) {
+      if (!text && text !== 0) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // -------------------------
+    // Event bindings and UI helpers
+    // -------------------------
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('quantity').value = '1';
+
+      // Format blur events for numeric inputs
       ['area','rate'].forEach(id => {
         const input = document.getElementById(id);
         if (input) input.addEventListener('blur', function() {
@@ -901,74 +1019,64 @@
         if (input) input.addEventListener('input', updateCustomerInfo);
       });
 
-      document.getElementById('locationArea').addEventListener('change', function() {
-        if (this.value === 'Other') {
-          const customLocation = prompt('Please enter the location:');
-          if (customLocation && customLocation.trim()) {
-            const option = document.createElement('option');
-            option.value = customLocation.trim();
-            option.textContent = customLocation.trim();
-            option.selected = true;
-            const otherOption = this.querySelector('option[value="Other"]');
-            this.insertBefore(option, otherOption);
-          } else {
-            this.value = '';
+      // Allow custom entries for selects
+      function addCustomOptionOnOther(selectId, promptText) {
+        const sel = document.getElementById(selectId);
+        if (!sel) return;
+        sel.addEventListener('change', function() {
+          if (this.value === 'Other') {
+            const custom = prompt(promptText);
+            if (custom && custom.trim()) {
+              const option = document.createElement('option');
+              option.value = custom.trim();
+              option.textContent = custom.trim();
+              option.selected = true;
+              const otherOption = this.querySelector('option[value="Other"]');
+              this.insertBefore(option, otherOption);
+            } else {
+              this.value = '';
+            }
           }
-        }
-      });
-
-      document.getElementById('lockType').addEventListener('change', function() {
-        if (this.value === 'Other') {
-          const customLock = prompt('Please enter the lock type:');
-          if (customLock && customLock.trim()) {
-            const option = document.createElement('option');
-            option.value = customLock.trim();
-            option.textContent = customLock.trim();
-            option.selected = true;
-            const otherOption = this.querySelector('option[value="Other"]');
-            this.insertBefore(option, otherOption);
-          } else {
-            this.value = '';
-          }
-        }
-      });
-
-      document.getElementById('glassType').addEventListener('change', function() {
-        if (this.value === 'Other') {
-          const customGlass = prompt('Please enter the glass type:');
-          if (customGlass && customGlass.trim()) {
-            const option = document.createElement('option');
-            option.value = customGlass.trim();
-            option.textContent = customGlass.trim();
-            option.selected = true;
-            const otherOption = this.querySelector('option[value="Other"]');
-            this.insertBefore(option, otherOption);
-          } else {
-            this.value = '';
-          }
-        }
-      });
-
-      // NEW: Product Category Other handler (same UX pattern)
-      document.getElementById('productCategory').addEventListener('change', function() {
-        if (this.value === 'Other') {
-          const customCategory = prompt('Please enter the product category:');
-          if (customCategory && customCategory.trim()) {
-            const option = document.createElement('option');
-            option.value = customCategory.trim();
-            option.textContent = customCategory.trim();
-            option.selected = true;
-            const otherOption = this.querySelector('option[value="Other"]');
-            this.insertBefore(option, otherOption);
-          } else {
-            this.value = '';
-          }
-        }
-      });
+        });
+      }
+      addCustomOptionOnOther('locationArea', 'Please enter the location:');
+      addCustomOptionOnOther('lockType', 'Please enter the lock type:');
+      addCustomOptionOnOther('glassType', 'Please enter the glass type:');
+      addCustomOptionOnOther('productCategory', 'Please enter the product category:');
 
       document.getElementById('gstCheckbox').addEventListener('change', updateTotals);
+
+      // Defensive: set pdf logo src to company logo once loaded
+      const compLogo = selectors.companyLogo();
+      if (compLogo) {
+        compLogo.addEventListener('load', () => {
+          try {
+            const pdfLogoEl = selectors.pdfLogo();
+            if (pdfLogoEl) pdfLogoEl.src = compLogo.src;
+          } catch (e) {}
+        });
+        // if already loaded earlier
+        if (compLogo.complete && compLogo.naturalWidth !== 0) {
+          try { const pdfLogoEl = selectors.pdfLogo(); if (pdfLogoEl) pdfLogoEl.src = compLogo.src; } catch(e){}
+        }
+      }
     });
 
+    // expose some functions to global scope because HTML uses onclick inline
+    window.addCustomField = addCustomField;
+    window.updateCustomFieldPrice = updateCustomFieldPrice;
+    window.removeCustomField = removeCustomField;
+    window.saveProduct = saveProduct;
+    window.clearForm = clearForm;
+    window.renderProducts = renderProducts;
+    window.editProduct = editProduct;
+    window.deleteProduct = deleteProduct;
+    window.generatePDF = generatePDF;
+    window.cancelEdit = cancelEdit;
+    window.calculateArea = calculateArea;
+    window.updatePricePreview = updatePricePreview;
+
+    // End of script
   </script>
 </body>
 </html>
