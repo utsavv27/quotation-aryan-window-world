@@ -285,6 +285,9 @@
   </div>
 
   <script>
+    // ===== device detection (used for redirects) =====
+    const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent) || window.innerWidth < 768;
+
     // Credentials
     const VALID_USERNAME = 'Admin';
     const VALID_PASSWORD = 'Securepass';
@@ -316,10 +319,13 @@
           loginButton.innerHTML = '<i class="fas fa-check-circle"></i> <span>Success!</span>';
           loginButton.style.background = 'linear-gradient(135deg, #059669, #10b981)';
           
-          // Redirect to quotation generator
+          // Redirect to correct index based on device
           setTimeout(() => {
-            window.location.href = 'index.html';
-            // window.location.href = 'index-wo-tnc.html';
+            if (isMobile) {
+              window.location.href = 'index-mobile.html';
+            } else {
+              window.location.href = 'index.html';
+            }
           }, 500);
         } else {
           // Show error
@@ -334,10 +340,19 @@
       }, 800);
     }
 
-    // Check if already logged in
-    if (sessionStorage.getItem('isAuthenticated') === 'true') {
-      window.location.href = 'index.html';
-    }
+    // If already logged in, redirect to the appropriate index immediately (no loop)
+    (function redirectIfAuthenticated() {
+      if (sessionStorage.getItem('isAuthenticated') === 'true') {
+        // small delay to allow any UI to render (optional)
+        setTimeout(() => {
+          if (isMobile) {
+            if (!location.pathname.endsWith('index-mobile.html')) location.replace('index-mobile.html');
+          } else {
+            if (!location.pathname.endsWith('index.html')) location.replace('index.html');
+          }
+        }, 50);
+      }
+    })();
 
     // Add enter key support
     document.getElementById('password').addEventListener('keypress', function(e) {

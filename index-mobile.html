@@ -479,7 +479,7 @@
     function checkAuthentication() {
       if (sessionStorage.getItem('isAuthenticated') !== 'true') {
         // keep local testing safe; uncomment redirect for production
-        // window.location.href = 'login.html';
+        window.location.href = 'login.html';
       } else {
         const username = sessionStorage.getItem('username') || 'User';
         document.getElementById('displayUsername').textContent = username;
