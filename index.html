@@ -720,9 +720,10 @@
    function updatePricePreview() {
   const area = parseFloat(document.getElementById('area').value) || 0;
   const rate = parseFloat(document.getElementById('rate').value) || 0;
+  const qty  = parseInt(document.getElementById('quantity').value) || 1;
 
   if (area > 0 && rate > 0) {
-    const totalAmount = area * rate; // quantity ignored
+    const totalAmount = area * rate * qty;
     document.getElementById('livePrice').value =
       '₹' + totalAmount.toLocaleString('en-IN', {
         minimumFractionDigits: 2,
@@ -732,6 +733,7 @@
     document.getElementById('livePrice').value = '₹0.00';
   }
 }
+
 
 
     // -------------------------
@@ -844,7 +846,7 @@
         dimensionHeight: document.getElementById('dimensionHeight').value.trim(),
         dimensionWidth: document.getElementById('dimensionWidth').value.trim(),
         area: parseFloat(document.getElementById('area').value || 0),
-qty: 1, // quantity permanently fixed
+        qty: parseInt(document.getElementById('quantity').value) || 1,
         rate: parseFloat(document.getElementById('rate').value || 0),
         frameDesc: document.getElementById('frameDesc').value.trim(),
         sashDesc: document.getElementById('sashDesc').value.trim(),
@@ -904,9 +906,8 @@ qty: 1, // quantity permanently fixed
         let totalItemArea = 0;
         let amount = 0;
         if (product.area > 0 && product.qty > 0 && product.rate > 0) {
-          totalItemArea = product.area;
-amount = product.area * product.rate;
-
+          totalItemArea = product.area * product.qty;
+          amount = product.area * product.rate * product.qty;
         }
         let specDetails = '';
         const productTitle = (product.productCategory && product.itemType) ?
@@ -936,7 +937,7 @@ amount = product.area * product.rate;
           if (field.width) details.push(`W:${escapeHtml(field.width)}mm`);
           if (field.height) details.push(`H:${escapeHtml(field.height)}mm`);
           if (field.length) details.push(`L:${escapeHtml(field.length)}mm`);
-          if (details.length > 0) specDetails += ` ${details.join(', ')}`;
+          if (details.length > 0) specDetails += ` ${details.join(', ')}`;s
           if (field.desc) specDetails += `, ${escapeHtml(field.desc)}`;
           if (field.price) {
             const numericPrice = parseFloat(field.price.replace(/[₹,]/g,'')) || 0;
@@ -952,11 +953,9 @@ amount = product.area * product.rate;
         else if (customFieldTotal > 0) displayRate = 'Custom';
         else displayRate = '-';
 
-       totalItems += 1; // count items, not quantity
-totalArea += product.area;
-subtotal += finalAmount;
-
-
+        totalItems += product.qty;
+        totalArea += product.area * product.qty;
+        subtotal += finalAmount;
         const row = document.createElement('tr');
         row.innerHTML = `
           <td><strong>${index+1}</strong></td>
