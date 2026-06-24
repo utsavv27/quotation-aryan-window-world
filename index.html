@@ -432,6 +432,10 @@
     </footer>
   </div>
 
+  <div class="hide-for-pdf" style="text-align: center; padding: 20px 10px; margin-top: 10px; color: #6b7280; font-size: 13px; font-weight: 500;">
+    Developed by <a href="https://utsavadhyaru.in" target="_blank" style="color: #10b981; text-decoration: underline;">Utsav</a> | Version-2
+  </div>
+
   <script>
     // -------------------------
 // Fill form with demo/test data
@@ -1059,12 +1063,12 @@
 
 // -------------------------
 // PDF generation with pagination
-// - 8 products per page
+// - 10 products per page
 // - Totals + Terms only on last page
 // - Page always scaled to fit so nothing is cut
 // -------------------------
 // -------------------------
-// PDF generation: 8 rows per page
+// PDF generation: 10 rows per page
 // - Customer info only on first page
 // - Totals + T&C only on last page
 // -------------------------
@@ -1097,7 +1101,7 @@ async function generatePDF() {
 
   // how many product rows total & pages
   const allRows = original.querySelectorAll('#itemsTable tbody tr');
-  const rowsPerPage = 7;
+  const rowsPerPage = 10;
   const totalPages = Math.max(1, Math.ceil(allRows.length / rowsPerPage));
 
   try {
@@ -1136,14 +1140,22 @@ async function generatePDF() {
         termsSection.style.display = 'none';
       }
 
+      // A4 width in pixels (assuming 96dpi -> ~794px)
+      const a4WidthPx = 794;
+
       // put clone temporarily in DOM so html2canvas can render it
       const tempWrapper = document.createElement('div');
       tempWrapper.style.position = 'fixed';
-      tempWrapper.style.left = '0';
+      tempWrapper.style.left = '-9999px';
       tempWrapper.style.top = '0';
-      tempWrapper.style.width = '100%';
+      tempWrapper.style.width = a4WidthPx + 'px';
       tempWrapper.style.background = '#ffffff';
       tempWrapper.style.zIndex = '-9999';
+
+      clone.style.width = a4WidthPx + 'px';
+      clone.style.maxWidth = a4WidthPx + 'px';
+      clone.style.boxSizing = 'border-box';
+
       tempWrapper.appendChild(clone);
       document.body.appendChild(tempWrapper);
 
@@ -1155,9 +1167,10 @@ async function generatePDF() {
         useCORS: true,
         allowTaint: false,
         backgroundColor: '#ffffff',
+        width: a4WidthPx,
         scrollX: 0,
-        scrollY: -window.scrollY,
-        windowWidth: document.documentElement.scrollWidth
+        scrollY: 0,
+        windowWidth: a4WidthPx
       });
 
       // remove temp clone from DOM
@@ -1168,12 +1181,12 @@ async function generatePDF() {
       const imgWidth  = imgProps.width;
       const imgHeight = imgProps.height;
 
-      const scale        = Math.min(usableWidth / imgWidth, usableHeight / imgHeight);
+      const scale        = usableWidth / imgWidth;
       const renderWidth  = imgWidth  * scale;
       const renderHeight = imgHeight * scale;
 
-      const x = (pageWidth - renderWidth) / 2; // center horizontally
-      const y = margin;                        // stick near top
+      const x = margin;
+      const y = margin;
 
       if (pageIndex > 0) pdf.addPage();
       pdf.addImage(imgData, 'JPEG', x, y, renderWidth, renderHeight);

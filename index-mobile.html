@@ -436,6 +436,10 @@
     </footer>
   </div>
 
+  <div class="hide-for-pdf" style="text-align: center; padding: 20px 10px; margin-top: 10px; color: #6b7280; font-size: 13px; font-weight: 500;">
+    Developed by <a href="https://utsavadhyaru.in" target="_blank" style="color: #10b981; text-decoration: underline;">Utsav</a> | Version-2
+  </div>
+
   <script>
     /**********************************************************************
      * Optimized + GitHub-Pages compatible version of your app
@@ -881,7 +885,7 @@
     }
 
     // -------------------------
-    // PDF generation (A4-accurate, avoids row breaks)
+    // PDF generation (A4-accurate, avoids row breaks, 10 items per page)
     // -------------------------
     async function generatePDF() {
   // require at least one product (keeps your original UX guard)
@@ -915,73 +919,98 @@
     const pxPerMm = 96 / 25.4;
     const a4WidthPx = Math.round(pdfWidthMm * pxPerMm);
 
-    // clone the printable area and force A4 width so layout matches A4
-    const clone = originalElement.cloneNode(true);
-    clone.classList.add('pdf-a4-clone');
-    clone.style.position = 'fixed';
-    clone.style.left = '-9999px';
-    clone.style.top = '0';
-    clone.style.overflow = 'visible';
-    clone.style.width = a4WidthPx + 'px';
-    clone.style.maxWidth = a4WidthPx + 'px';
-    clone.style.boxSizing = 'border-box';
-    clone.style.margin = '0';
-    // preserve padding so clone looks identical
-    clone.style.padding = getComputedStyle(originalElement).padding || '15px';
-    document.body.appendChild(clone);
-
-    // Wait for fonts/images/layout in clone
-    await waitForElementsToRender(clone);
-    clone.offsetHeight; // force reflow
-
-    // render clone with html2canvas
-    // choose scale to balance quality & file size; devicePixelRatio helps on high-dpi devices
-    const scale = Math.min(2, window.devicePixelRatio || 1.5);
-    const canvas = await html2canvas(clone, {
-      scale: scale,
-      useCORS: true,
-      allowTaint: false,
-      backgroundColor: '#ffffff',
-      width: clone.scrollWidth,
-      scrollX: 0,
-      scrollY: 0,
-      windowWidth: clone.scrollWidth
-    });
-
-    // remove clone immediately
-    clone.remove();
-
-    // restore hidden elements in page
-    hideElements.forEach(el => el.classList.remove('pdf-hidden-temp'));
-
-    // convert canvas to image
-    const imgData = canvas.toDataURL('image/jpeg', 0.95);
-
-    // prepare PDF (portrait A4)
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF('p', 'mm', 'a4');
 
-    // canvas dimensions in px
-    const canvasWidthPx = canvas.width;
-    const canvasHeightPx = canvas.height;
+    // how many product rows total & pages
+    const allRows = originalElement.querySelectorAll('#itemsTable tbody tr');
+    const rowsPerPage = 10;
+    const totalPages = Math.max(1, Math.ceil(allRows.length / rowsPerPage));
 
-    // compute image size in PDF mm for full-width placement
-    let imgWidthPdf = pdfWidthMm; // start by filling full width
-    let imgHeightPdf = (canvasHeightPx * imgWidthPdf) / canvasWidthPx;
+    for (let pageIndex = 0; pageIndex < totalPages; pageIndex++) {
+      // clone the printable area and force A4 width so layout matches A4
+      const clone = originalElement.cloneNode(true);
+      clone.classList.add('pdf-a4-clone');
+      clone.style.position = 'fixed';
+      clone.style.left = '-9999px';
+      clone.style.top = '0';
+      clone.style.overflow = 'visible';
+      clone.style.width = a4WidthPx + 'px';
+      clone.style.maxWidth = a4WidthPx + 'px';
+      clone.style.boxSizing = 'border-box';
+      clone.style.margin = '0';
+      // preserve padding so clone looks identical
+      clone.style.padding = getComputedStyle(originalElement).padding || '15px';
 
-    // if image height exceeds page height, scale down to fit within single A4 page
-    if (imgHeightPdf > pdfHeightMm) {
-      const scaleDown = pdfHeightMm / imgHeightPdf;
-      imgWidthPdf = imgWidthPdf * scaleDown;
-      imgHeightPdf = imgHeightPdf * scaleDown;
+      // keep only the rows that belong to this page
+      const cloneRows = clone.querySelectorAll('#itemsTable tbody tr');
+      const start = pageIndex * rowsPerPage;
+      const end   = start + rowsPerPage;
+      cloneRows.forEach((row, idx) => {
+        if (idx < start || idx >= end) row.remove();
+      });
+
+      // CUSTOMER INFO: only on first page
+      const custSection = clone.querySelector('#customer-info');
+      if (pageIndex > 0 && custSection) {
+        custSection.style.display = 'none';
+      }
+
+      // TOTALS: only on last page
+      const totalsSection = clone.querySelector('#totals-section');
+      if (pageIndex !== totalPages - 1 && totalsSection) {
+        totalsSection.style.display = 'none';
+      }
+
+      // TERMS & CONDITIONS: only on last page
+      let termsSection = clone.querySelector('#termsSection');
+      if (!termsSection) {
+        const termsList = clone.querySelector('.terms-list');
+        if (termsList) termsSection = termsList.closest('.section');
+      }
+      if (pageIndex !== totalPages - 1 && termsSection) {
+        termsSection.style.display = 'none';
+      }
+
+      document.body.appendChild(clone);
+
+      // Wait for fonts/images/layout in clone
+      await waitForElementsToRender(clone);
+      clone.offsetHeight; // force reflow
+
+      // render clone with html2canvas
+      const scale = Math.min(2, window.devicePixelRatio || 1.5);
+      const canvas = await html2canvas(clone, {
+        scale: scale,
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: '#ffffff',
+        width: clone.scrollWidth,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: clone.scrollWidth
+      });
+
+      // remove clone immediately
+      clone.remove();
+
+      // convert canvas to image
+      const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+      // canvas dimensions in px
+      const canvasWidthPx = canvas.width;
+      const canvasHeightPx = canvas.height;
+
+      // compute image size in PDF mm for full-width placement
+      const imgWidthPdf = pdfWidthMm; // fill full width
+      const imgHeightPdf = (canvasHeightPx * imgWidthPdf) / canvasWidthPx;
+
+      if (pageIndex > 0) pdf.addPage();
+      pdf.addImage(imgData, 'JPEG', 0, 0, imgWidthPdf, imgHeightPdf);
     }
 
-    // center the image on the page (horizontal & vertical)
-    const x = (pdfWidthMm - imgWidthPdf) / 2;
-    const y = (pdfHeightMm - imgHeightPdf) / 2;
-
-    // add single image (single page)
-    pdf.addImage(imgData, 'JPEG', x, y, imgWidthPdf, imgHeightPdf);
+    // restore hidden elements in page
+    hideElements.forEach(el => el.classList.remove('pdf-hidden-temp'));
 
     // filename
     const customerName = (document.getElementById('custName').value || 'Customer').replace(/\s+/g,'_');
